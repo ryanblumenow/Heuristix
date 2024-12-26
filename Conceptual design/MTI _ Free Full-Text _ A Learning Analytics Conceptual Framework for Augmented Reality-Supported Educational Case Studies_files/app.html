@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<!-- saved from url=(0721)https://commenting.mdpi.com/app.html?config=%7B%22annotations%22:null,%22assetRoot%22:%22https:%2F%2Fcommentingres.mdpi.com%2Fhypothesis%22,%22branding%22:null,%22doi%22:null,%22identifier%22:null,%22platform%22:null,%22clientUrl%22:%22https:%2F%2Fcommentingres.mdpi.com%2Fhypothesis%2F1.81.0%2Fbuild%2Fboot.js%22,%22enableExperimentalNewNoteButton%22:true,%22theme%22:%22clean%22,%22usernameUrl%22:null,%22onLayoutChange%22:null,%22openSidebar%22:false,%22query%22:null,%22services%22:%5B%7B%22apiUrl%22:%22https:%2F%2Fcommenting.mdpi.com%2Fapi%2F%22,%22authority%22:%22mdpi%22,%22grantToken%22:%22%22,%22doi%22:%2210.3390%2Fmti5030009%22%7D%5D,%22showHighlights%22:%22whenSidebarOpen%22,%22subFrameIdentifier%22:null%7D -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hypothesis</title>
+<!--<base target="_top" href="/">--><base href="." target="_top">
+<script type="text/javascript" src="./raven.bundle.js.download"></script><script type="text/javascript" src="./angular.bundle.js.download"></script><script type="text/javascript" src="./katex.bundle.js.download"></script><script type="text/javascript" src="./showdown.bundle.js.download"></script><script type="text/javascript" src="./polyfills.bundle.js.download"></script><script type="text/javascript" src="./unorm.bundle.js.download"></script><script type="text/javascript" src="./sidebar.bundle.js.download"></script><link rel="stylesheet" type="text/css" href="./angular-csp.css"><link rel="stylesheet" type="text/css" href="./angular-toastr.css"><link rel="stylesheet" type="text/css" href="./icomoon.css"><link rel="stylesheet" type="text/css" href="./katex.min.css"><link rel="stylesheet" type="text/css" href="./sidebar.css"></head>
+<body ng-csp="">
+<hypothesis-app class="ng-scope ng-isolate-scope"><link rel="stylesheet" href="./font-awesome.min(1).css">
+<div class="app-content-wrapper js-thread-list-scroll-root" h-branding="appBackgroundColor">
+  <top-bar auth="vm.auth" on-login="vm.login()" on-sign-up="vm.signUp()" on-logout="vm.logout()" on-share-page="vm.share()" on-show-help-panel="vm.showHelpPanel()" is-sidebar="::vm.isSidebar" pending-update-count="vm.countPendingUpdates()" on-apply-pending-updates="vm.applyPendingUpdates()" search-controller="vm.search" sort-key="vm.sortKey()" sort-keys-available="vm.sortKeysAvailable()" on-change-sort-key="vm.setSortKey(sortKey)" class="ng-isolate-scope"><!-- top bar for the sidebar and the stream.
+!-->
+<div class="top-bar top-bar--theme-clean" ng-class="{&#39;top-bar--theme-clean&#39; : vm.isThemeClean }">
+  <!-- Legacy design for top bar, as used in the stream !-->
+  <!-- ngIf: ::!vm.isSidebar -->
+  <!-- New design for the top bar, as used in the sidebar.
+
+       The inner div is styled with 'content' to center it in
+       the stream view.
+  !-->
+  <!-- ngIf: ::vm.isSidebar --><div class="top-bar__inner content ng-scope" ng-if="::vm.isSidebar">
+    <group-list class="group-list ng-isolate-scope" auth="vm.auth"><div class="pull-right dropdown" dropdown="" keyboard-nav="">
+  <div class="dropdown-toggle" dropdown-toggle="" data-toggle="dropdown" ng-switch="" on="vm.groups.focused().public" aria-haspopup="true" aria-expanded="false">
+    <!-- ngSwitchWhen: true --><!-- ngIf: vm.thirdPartyGroupIcon --><!-- end ngSwitchWhen: --><!-- nospace
+    <!--!&ndash;&gt;<i class="group-list-label__icon h-icon-public"-->
+           <!--ng-switch-when="true"-->
+           <!--ng-if="!vm.thirdPartyGroupIcon"></i>&lt;!&ndash; nospace-->
+    <!--!&ndash;&gt;<i class="group-list-label__icon h-icon-group"-->
+           <!--ng-switch-default></i>-->
+    <span class="group-list-label__label ng-binding">Public</span><!-- nospace
+    !-->
+    <!--<i class="h-icon-arrow-drop-down"></i>-->
+  </div>
+  <!--<div class="dropdown-menu__top-arrow"></div>-->
+  <!--<ul class="dropdown-menu pull-none" role="menu">-->
+    <!--<li class="dropdown-menu__row dropdown-menu__row&#45;&#45;unpadded "-->
+        <!--ng-repeat="group in vm.groups.all()">-->
+      <!--<div ng-class="{'group-item': true, selected: group.id == vm.groups.focused().id}"-->
+           <!--ng-click="vm.focusGroup(group.id)">-->
+        <!--&lt;!&ndash; the group icon !&ndash;&gt;-->
+        <!--<div class="group-icon-container" ng-switch on="group.public">-->
+          <!--<img class="group-list-label__icon group-list-label__icon&#45;&#45;third-party"-->
+               <!--ng-src="{{ vm.thirdPartyGroupIcon }}"-->
+               <!--ng-if="vm.thirdPartyGroupIcon"-->
+               <!--ng-switch-when="true">-->
+          <!--<i class="h-icon-public" ng-if="!vm.thirdPartyGroupIcon" ng-switch-when="true"></i>-->
+          <!--<i class="h-icon-group" ng-switch-default></i>-->
+        <!--</div>-->
+        <!--&lt;!&ndash; the group name and share link !&ndash;&gt;-->
+        <!--<div class="group-details">-->
+          <!--<div class="group-name-container">-->
+            <!--<a class="group-name-link"-->
+               <!--href=""-->
+               <!--title="{{ group.public ? 'Show public annotations' : 'Show and create annotations in ' + group.name }}">-->
+               <!--{{group.name}}-->
+            <!--</a>-->
+          <!--</div>-->
+          <!--<div class="share-link-container" ng-click="$event.stopPropagation()">-->
+            <!--<a class="share-link"-->
+               <!--href="{{group.url}}"-->
+               <!--target="_blank"-->
+               <!--ng-click="vm.viewGroupActivity()">-->
+              <!--View group activity-->
+              <!--<span ng-if="group.type === 'private'">-->
+                <!--and invite others-->
+              <!--</span>-->
+            <!--</a>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash; the 'Leave group' icon !&ndash;&gt;-->
+        <!--<div class="group-cancel-icon-container" ng-click="$event.stopPropagation()">-->
+          <!--<i class="h-icon-cancel-outline btn&#45;&#45;cancel"-->
+             <!--ng-if="group.type === 'private'"-->
+             <!--ng-click="vm.leaveGroup(group.id)"-->
+             <!--title="Leave '{{group.name}}'"></i>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</li>-->
+    <!--&lt;!&ndash;<li ng-if="vm.auth.status === 'logged-in' && !vm.isThirdPartyUser()" class="dropdown-menu__row dropdown-menu__row&#45;&#45;unpadded new-group-btn">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="group-item" ng-click="vm.createNewGroup()">&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="group-icon-container"><i class="h-icon-add"></i></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="group-details">&ndash;&gt;-->
+          <!--&lt;!&ndash;<a href="" class="group-name-link" title="Create a new group to share annotations">&ndash;&gt;-->
+            <!--&lt;!&ndash;New group&ndash;&gt;-->
+          <!--&lt;!&ndash;</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+  <!--</ul>-->
+</div>
+
+</group-list>
+    <div class="top-bar__expander"></div>
+    <!-- ngIf: vm.pendingUpdateCount > 0 -->
+    <search-input class="search-input ng-isolate-scope" query="vm.searchController.query()" on-search="vm.searchController.update($query)" title="Filter the annotation list"><form class="simple-search-form ng-pristine ng-valid simple-search-inactive" name="searchForm" ng-class="!vm.query &amp;&amp; &#39;simple-search-inactive&#39;">
+  <input class="simple-search-input" type="text" name="query" placeholder="Search…" ng-disabled="vm.loading" ng-class="vm.inputClasses()">
+  <button type="button" class="simple-search-icon top-bar__btn" ng-hide="vm.loading">
+    <i class="h-icon-search"></i>
+  </button>
+  <button type="button" class="simple-search-icon btn btn-clean ng-hide" ng-show="vm.loading" disabled="">
+    <span class="btn-icon"><span class="spinner"><span><span></span></span></span></span>
+  </button>
+</form>
+</search-input>
+    <sort-dropdown sort-keys-available="vm.sortKeysAvailable" sort-key="vm.sortKey" on-change-sort-key="vm.onChangeSortKey({sortKey: sortKey})" class="ng-isolate-scope"><span dropdown="" keyboard-nav="" class="dropdown">
+  <button type="button" class="top-bar__btn dropdown-toggle" dropdown-toggle="" title="Sort by Location" aria-haspopup="true" aria-expanded="false">
+    <i class="h-icon-sort"></i>
+  </button>
+  <div class="dropdown-menu__top-arrow"></div>
+  <ul class="dropdown-menu pull-right" role="menu">
+    <!-- ngRepeat: key in vm.sortKeysAvailable --><li class="dropdown-menu__row ng-scope" ng-repeat="key in vm.sortKeysAvailable" ng-click="vm.onChangeSortKey({sortKey: key})"><span class="dropdown-menu-radio" ng-class="{&#39;is-selected&#39; : vm.sortKey === key}"></span><a class="dropdown-menu__link ng-binding" href="https://commenting.mdpi.com/">Newest</a></li><!-- end ngRepeat: key in vm.sortKeysAvailable --><li class="dropdown-menu__row ng-scope" ng-repeat="key in vm.sortKeysAvailable" ng-click="vm.onChangeSortKey({sortKey: key})"><span class="dropdown-menu-radio" ng-class="{&#39;is-selected&#39; : vm.sortKey === key}"></span><a class="dropdown-menu__link ng-binding" href="https://commenting.mdpi.com/">Oldest</a></li><!-- end ngRepeat: key in vm.sortKeysAvailable --><li class="dropdown-menu__row ng-scope" ng-repeat="key in vm.sortKeysAvailable" ng-click="vm.onChangeSortKey({sortKey: key})"><span class="dropdown-menu-radio is-selected" ng-class="{&#39;is-selected&#39; : vm.sortKey === key}"></span><a class="dropdown-menu__link ng-binding" href="https://commenting.mdpi.com/">Location</a></li><!-- end ngRepeat: key in vm.sortKeysAvailable -->
+  </ul>
+</span>
+</sort-dropdown>
+    <!-- ngIf: vm.showSharePageButton() --><a class="top-bar__btn ng-scope" ng-click="vm.onSharePage()" ng-if="vm.showSharePageButton()" title="Share this page">
+      <i class="h-icon-annotation-share"></i>
+    </a><!-- end ngIf: vm.showSharePageButton() -->
+    <login-control class="login-control ng-isolate-scope" auth="vm.auth" new-style="true" on-show-help-panel="vm.onShowHelpPanel()" on-login="vm.onLogin()" on-logout="vm.onLogout()" on-sign-up="vm.onSignUp()"><!-- New controls -->
+<!-- ngIf: vm.newStyle && vm.auth.status === 'unknown' -->
+<!-- ngIf: vm.newStyle && vm.auth.status === 'logged-out' --><span class="login-text ng-scope" ng-if="vm.newStyle &amp;&amp; vm.auth.status === &#39;logged-out&#39;">
+<!--  <a href="" ng-click="vm.onSignUp()" target="_blank" h-branding="accentColor">Sign up</a>
+  / <a href="" ng-click="vm.onLogin()" h-branding="accentColor">Log in</a>
+-->
+</span><!-- end ngIf: vm.newStyle && vm.auth.status === 'logged-out' -->
+<!-- ngIf: vm.newStyle --><div ng-if="vm.newStyle" class="pull-right login-control-menu ng-scope dropdown" dropdown="" keyboard-nav="">
+  <a role="button" class="top-bar__btn dropdown-toggle" data-toggle="dropdown" dropdown-toggle="" title="" aria-haspopup="true" aria-expanded="false">
+    <!-- ngIf: vm.auth.status === 'logged-in' --><!--
+    !--><!-- ngIf: vm.auth.status === 'logged-in' -->
+  </a>
+  <!-- ngIf: vm.auth.status === 'logged-in' -->
+</div><!-- end ngIf: vm.newStyle -->
+
+<!-- Old controls -->
+<!--<span ng-if="!vm.newStyle && vm.auth.status === 'unknown'">⋯</span>-->
+<!--<span ng-if="!vm.newStyle && vm.auth.status === 'logged-out'">-->
+  <!--<a href="" ng-click="vm.onLogin()">Log in</a>-->
+<!--</span>-->
+<!--<div ng-if="!vm.newStyle"-->
+     <!--class="pull-right login-control-menu"-->
+     <!--dropdown-->
+     <!--keyboard-nav>-->
+  <!--<span role="button" data-toggle="dropdown" dropdown-toggle>-->
+    <!--{{vm.auth.username}}&lt;!&ndash;-->
+    <!--&ndash;&gt;<span class="provider"-->
+             <!--ng-if="vm.auth.provider">/{{vm.auth.provider}}</span>&lt;!&ndash;-->
+    <!--&ndash;&gt;<i class="h-icon-arrow-drop-down"></i>-->
+  <!--</span>-->
+  <!--<ul class="dropdown-menu pull-right" role="menu">-->
+    <!--<li class="dropdown-menu__row" ng-if="vm.auth.status === 'logged-in'">-->
+      <!--<a class="dropdown-menu__link" href="{{vm.serviceUrl('account.settings')}}" target="_blank">Account</a>-->
+    <!--</li>-->
+    <!--<li class="dropdown-menu__row" >-->
+      <!--<a class="dropdown-menu__link" ng-click="vm.onShowHelpPanel()">Help</a>-->
+    <!--</li>-->
+    <!--<li class="dropdown-menu__row" ng-if="vm.auth.status === 'logged-in'">-->
+      <!--<a class="dropdown-menu__link" href="{{vm.serviceUrl('user',{user: vm.auth.username})}}"-->
+         <!--target="_blank">My Annotations</a>-->
+    <!--</li>-->
+    <!--<li class="dropdown-menu__row" ng-if="vm.auth.status === 'logged-in'">-->
+      <!--<a class="dropdown-menu__link" href="" ng-click="vm.onLogout()">Log out</a>-->
+    <!--</li>-->
+  <!--</ul>-->
+<!--</div>-->
+</login-control>
+  </div><!-- end ngIf: ::vm.isSidebar -->
+</div>
+</top-bar>
+
+  <div class="content">
+    <!-- ngIf: vm.isSidebar --><sidebar-tutorial ng-if="vm.isSidebar" class="ng-scope ng-isolate-scope"></sidebar-tutorial><!-- end ngIf: vm.isSidebar -->
+    <!-- ngIf: vm.shareDialog.visible -->
+    <!-- ngIf: vm.helpPanel.visible -->
+    <!-- ngView: --><main ng-view="" class="ng-scope"><sidebar-content search="vm.search" auth="vm.auth" class="ng-scope ng-isolate-scope"><!-- ngIf: !vm.search.query() && vm.selectedAnnotationCount() === 0 --><selection-tabs ng-if="!vm.search.query() &amp;&amp; vm.selectedAnnotationCount() === 0" is-waiting-to-anchor-annotations="vm.waitingToAnchorAnnotations" is-loading="vm.isLoading" selected-tab="vm.selectedTab" total-annotations="vm.totalAnnotations" total-notes="vm.totalNotes" total-orphans="vm.totalOrphans" total-endorses="vm.totalEndorses" class="ng-scope ng-isolate-scope"><!-- Tabbed display of annotations and notes. -->
+<div class="selection-tabs selection-tabs--theme-clean" ng-class="{&#39;selection-tabs--theme-clean&#39; : vm.isThemeClean }">
+  <a class="selection-tabs__type is-selected" href="https://commenting.mdpi.com/#" ng-class="{&#39;is-selected&#39;: vm.selectedTab === vm.TAB_ANNOTATIONS}" h-on-touch="vm.selectTab(vm.TAB_ANNOTATIONS)">
+    Annotations
+    <!-- ngIf: vm.totalAnnotations > 0 && !vm.isWaitingToAnchorAnnotations -->
+  </a>
+  <a class="selection-tabs__type" href="https://commenting.mdpi.com/#" ng-class="{&#39;is-selected&#39;: vm.selectedTab === vm.TAB_NOTES}" h-on-touch="vm.selectTab(vm.TAB_NOTES)">
+    Page Notes
+    <!-- ngIf: vm.totalNotes > 0 && !vm.isWaitingToAnchorAnnotations -->
+  </a>
+  <a class="selection-tabs__type" href="https://commenting.mdpi.com/#" ng-class="{&#39;is-selected&#39;: vm.selectedTab === vm.TAB_ENDORSES}" h-on-touch="vm.selectTab(vm.TAB_ENDORSES)">
+    Endorsements
+    <!-- ngIf: vm.totalEndorses > 0 && !vm.isWaitingToAnchorAnnotations -->
+  </a>
+
+  <!-- ngIf: vm.totalOrphans > 0 -->
+</div>
+<!-- ngIf: vm.selectedTab === vm.TAB_NOTES && vm.enableExperimentalNewNoteButton -->
+<!-- ngIf: !vm.isLoading() --><div ng-if="!vm.isLoading()" class="selection-tabs__empty-message ng-scope">
+  <!-- ngIf: vm.showNotesUnavailableMessage() -->
+  <!-- ngIf: vm.showAnnotationsUnavailableMessage() --><div ng-if="vm.showAnnotationsUnavailableMessage()" class="annotation-unavailable-message ng-scope">
+    <p class="annotation-unavailable-message__label">
+      There are no annotations on this article.
+      <br>
+      </p><!-- ngIf: !vm.showSidebarTutorial() --><div ng-if="!vm.showSidebarTutorial()" class="annotation-unavailable-message__tutorial ng-scope">
+        Create one by selecting some text and clicking the
+        <i class="help-icon h-icon-annotate"></i> button.
+      </div><!-- end ngIf: !vm.showSidebarTutorial() -->
+    <p></p>
+  </div><!-- end ngIf: vm.showAnnotationsUnavailableMessage() -->
+  <!-- ngIf: vm.showEndorsesUnavailableMessage() -->
+</div><!-- end ngIf: !vm.isLoading() -->
+</selection-tabs><!-- end ngIf: !vm.search.query() && vm.selectedAnnotationCount() === 0 -->
+
+<search-status-bar ng-show="!vm.isLoading()" filter-active="!!vm.search.query()" filter-match-count="vm.visibleCount()" on-clear-selection="vm.clearSelection()" search-query="vm.search.query()" selection-count="vm.selectedAnnotationCount()" total-count="vm.topLevelThreadCount()" selected-tab="vm.selectedTab" total-annotations="vm.totalAnnotations" total-notes="vm.totalNotes" total-endorses="vm.totalEndorses" class="ng-isolate-scope"><!-- ngIf: vm.filterActive -->
+<!-- ngIf: !vm.filterActive && vm.selectionCount > 0 -->
+</search-status-bar>
+
+<!-- ngIf: vm.selectedAnnotationUnavailable() -->
+<thread-list on-change-collapsed="vm.setCollapsed(id, collapsed)" on-clear-selection="vm.clearSelection()" on-focus="vm.focus(annotation)" on-force-visible="vm.forceVisible(thread)" on-select="vm.scrollTo(annotation)" show-document-info="false" thread="vm.rootThread" class="ng-isolate-scope"><ul class="thread-list">
+  <li class="thread-list__spacer" ng-style="{height: vm.virtualThreadList.offscreenUpperHeight}" style="height: 0px;"></li>
+  <!-- ngRepeat: child in vm.virtualThreadList.visibleThreads track by child.id -->
+  <!-- ngRepeat: child in vm.virtualThreadList.invisibleThreads track by child.id -->
+  <li class="thread-list__spacer" ng-style="{height: vm.virtualThreadList.offscreenLowerHeight}" style="height: 0px;"></li>
+</ul>
+</thread-list>
+
+<!-- ngIf: vm.shouldShowLoggedOutMessage() -->
+</sidebar-content></main>
+  </div>
+    <div id="delete_modal" class="modal">
+
+    <!--Delete modal content -->
+    <div class="modal-content">
+      <span id="modal_close" class="close">×</span>
+      <p>Are you sure you want to delete this annotation?</p>
+      <div id="button_wrapper">
+        <button id="confirm_delete">Confirm</button>
+        <button id="close_delete">Cancel</button>
+      </div>
+    </div>
+
+
+    <!-- Vote modal content -->
+        
+
+  </div>
+
+</div>
+</hypothesis-app>
+
+<script class="js-hypothesis-config js-hypothesis-settings" type="application/json">
+      {"apiUrl": "https://commenting.mdpi.com/api/", "authDomain": "mdpi", "oauthClientId": null, "release": "0+unknown", "serviceUrl": "https://commenting.mdpi.com/", "rpcAllowedOrigins": null, "websocketUrl": "wss://commenting.mdpi.com/ws"}
+    </script>
+
+<script src="./embed.js.download" type="text/javascript"></script>
+<script defer="" src="./v652eace1692a40cfa3763df669d7439c163907971719" integrity="sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw==" data-cf-beacon="{&quot;rayId&quot;:&quot;6f11a94d0ca49ce5&quot;,&quot;token&quot;:&quot;28b078b091674c0f80b4eb2521a2d256&quot;,&quot;version&quot;:&quot;2021.12.0&quot;,&quot;si&quot;:100}" crossorigin="anonymous"></script>
+
+<div class="tooltip" style="visibility: hidden;"><span class="tooltip-label js-tooltip-label"></span></div></body></html>

@@ -1,0 +1,518 @@
+from os import curdir
+import hydralit as hy
+from numpy.core.fromnumeric import var
+import streamlit
+import streamlit as st
+import sys
+from streamlit.web import cli as stcli
+from PIL import Image
+from functions import *
+import streamlit.components.v1 as components
+import pandas as pd
+from st_clickable_images import clickable_images
+import numpy as np
+import statsmodels.api as sm
+from numpy import mean
+from numpy import std
+from sklearn.datasets import make_classification
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import RepeatedStratifiedKFold
+from sklearn.linear_model import LogisticRegression
+from matplotlib import pyplot
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import silhouette_score
+from scipy.spatial.distance import cdist
+import seaborn as sns
+from io import BytesIO
+from statsmodels.formula.api import ols
+# from streamlit.state.session_state import SessionState
+import tkinter
+import matplotlib
+# matplotlib.use('TkAgg')
+# matplotlib.use('Agg')
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import accuracy_score
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
+from sklearn.tree import DecisionTreeRegressor, plot_tree
+import sklearn
+from sklearn.datasets import make_classification
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_regression
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import RepeatedKFold
+import time
+from scipy.stats import pearsonr
+from scipy.stats import spearmanr
+import dtale
+from dtale.views import startup
+from dtale.app import get_instance
+import webbrowser
+import dtale.global_state as global_state
+import dtale.app as dtale_app
+from matplotlib.pyplot import hist
+from scipy import stats as stats
+from bioinfokit.analys import stats
+from streamlit_option_menu import option_menu
+import pandas_profiling
+from streamlit_pandas_profiling import st_profile_report
+from sklearn.preprocessing import LabelEncoder
+from streamlit_quill import st_quill
+from statsmodels.tsa.stattools import adfuller, acf, pacf
+from statsmodels.tsa.seasonal import seasonal_decompose
+from statsmodels.tsa.arima_model import ARIMA
+
+# Data manipulation
+# ==============================================================================
+import numpy as np
+import pandas as pd
+
+# Plots
+# ==============================================================================
+import matplotlib.pyplot as plt
+plt.style.use('fivethirtyeight')
+plt.rcParams['lines.linewidth'] = 1.5
+
+# Modeling and Forecasting
+# ==============================================================================
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Lasso
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+
+from skforecast.ForecasterAutoreg import ForecasterAutoreg
+from skforecast.ForecasterAutoregCustom import ForecasterAutoregCustom
+from skforecast.ForecasterAutoregMultiOutput import ForecasterAutoregMultiOutput
+from skforecast.model_selection import grid_search_forecaster
+from skforecast.model_selection import backtesting_forecaster
+
+from joblib import dump, load
+
+# Warnings configuration
+# ==============================================================================
+import warnings
+# warnings.filterwarnings('ignore')
+
+#add an import to Hydralit
+from hydralit import HydraHeadApp
+
+#create a wrapper class
+class forecasting(HydraHeadApp):
+
+#wrap all your code in this method and you should be done
+    def run(self):
+        title = '<p style="font-family:sans-serif; color:red; font-size: 39px; text-align: center;"><b>Custom data/code testing environment</b></p>'
+
+        st.markdown(title, unsafe_allow_html=True)
+        @st.cache
+        def readdata():
+            df = pd.read_csv('allrecordsohe.csv', low_memory=False)
+            df2 = pd.read_csv('allrecords.csv', low_memory=False)
+            branddf = pd.read_csv('Brandname encoding.csv', low_memory=False)
+            df.isnull().sum()
+            df2.isnull().sum()
+            nr_samples_before = df.shape[0]
+            df = df.fillna(0)
+            print(f'Removed {nr_samples_before - df.shape[0]} samples')
+            nr_samples_before = df2.shape[0]
+            df2 = df2.fillna(0)
+            print(f'Removed {nr_samples_before - df2.shape[0]} samples')
+            df.drop(['TD_ID', 'KRUX_ID', 'TAP_IT_ID', 'GOOGLE_CLIENT_ID'], axis=1, inplace=True)
+
+            df2.drop(['TD_ID', 'KRUX_ID', 'TAP_IT_ID', 'GOOGLE_CLIENT_ID'], axis=1, inplace=True)
+
+            return df, df2, branddf
+
+        df, df2, branddf = readdata()
+
+        st.session_state['pagechoice'] = 'test'
+        
+        with st.sidebar:
+            choose = option_menu("ABI Analytics", ["Keep in mind", "Show me the steps", "Give me tips", "Give feedback"], icons=['key', 'bezier2', 'joystick', 'keyboard'], menu_icon="app-indicator", default_index=0, styles={"container": {"padding": "5!important", "background-color": "#fafafa"}, "icon": {"color": "black", "font-size": "25px"}, "nav-link": {"font-size": "16px", "text-align": "left", "margin": "0px", "--hover-color": "#eee"}, "nav-link-selected": {"background-color": "#ab0202"}})
+
+            print(st.session_state.pagechoice)
+
+            if choose == "Keep in mind":
+                st.write("Remember to ask good questions. That is the basis of making good decisions.")
+
+            if choose == "Show me the steps" and st.session_state.pagechoice == "test":
+                st.write("Steps you should follow:")
+            if choose == "Give me tips":
+                st.write("Here are some tips:")
+            if choose == "Give feedback":
+                st.write("Give feedback")
+                with st.sidebar.form(key='columns_in_form', clear_on_submit=True):
+                    rating = st.slider("Please rate the app", min_value=1, max_value=5, value=3, help='Drag the slider to rate the app. This is a 1-5 rating scale where 5 is the highest rating')
+
+                    text = st.text_input(label='Please leave your feedback here')
+                    submitted = st.form_submit_button('Submit')
+                    if submitted:
+                        st.write('Thanks for your feedback!')
+                        st.markdown('Your Rating:')
+                        st.markdown(rating)
+                        st.markdown('Your Feedback:')
+                        st.markdown(text)
+        
+        userdata = st.selectbox("Do you want to forecast a known variable or use custom data?", ["Known variable", "Custom data"])
+
+        if userdata == "Known variable":
+
+            # Data ingestion
+            # ==============================================================================
+            url = 'https://raw.githubusercontent.com/JoaquinAmatRodrigo/skforecast/master/data/h2o_exog.csv'
+            data = pd.read_csv(url, sep=',') 
+
+            # Data preparation
+            # ==============================================================================
+            data = data.rename(columns={'fecha': 'date'})
+            # data = data.rename(columns={'LAST_INTERACTION': 'date'})
+            data['date'] = pd.to_datetime(data['date'], format='%Y/%m/%d')
+            data = data.set_index('date')
+            data = data.rename(columns={'x': 'y'})
+            # data = data.rename(columns={'SALES': 'y'})
+            # data = data.rename(columns={'AGE': 'exog_1'})
+            data = data.asfreq('MS')
+            data = data.sort_index()
+
+            st.write(f'Number of rows with missing values: {data.isnull().any(axis=1).mean()}')
+       
+        if userdata == "Custom data":
+
+            st.warning("Ensure your data is structured as a time series, with a date field named 'date', at least one variable included apart from theh date field, and that there is no missing data. If your data is structured improperly, the system will throw an error. If that happens, please clean up your data and try again.")
+    
+            uploaded_file = st.file_uploader("Choose a file")
+            if uploaded_file is not None:
+                if 'load_csv' in st.session_state:
+                    data = st.session_state.load_csv
+                    st.write(uploaded_file.name + " " + "is loaded")
+                else:
+                    data = pd.read_csv(uploaded_file, dtype='unicode')
+                    st.session_state.load_csv = data
+
+            data['date'] = pd.to_datetime(data['date'], format='%Y/%m/%d')
+            data = data.set_index('date')
+
+            forecastvar = st.selectbox("Please select a variable to forecast", data.columns)
+
+            data = data.rename(columns={forecastvar: 'y'})
+            # data = data.rename(columns={'SALES': 'y'})
+            # data = data.rename(columns={'AGE': 'exog_1'})
+            data = data.asfreq('MS')
+            data = data.sort_index()
+
+        st.subheader("Sample of loaded data")
+
+        st.write(data.head())
+
+        st.write("")
+
+        edaprofiling = st.expander("Profile of dataset", expanded=False)
+
+        with edaprofiling:
+        
+            @st.cache(allow_output_mutation=True)
+            def gen_profile_report(data, *report_args, **report_kwargs):
+                return data.profile_report(*report_args, **report_kwargs)
+                
+            pr = gen_profile_report(data, explorative=True)
+            st_profile_report(pr)
+
+        dtaleexpander = st.expander("Dataset exploratory analysis", expanded=False)
+        
+        with dtaleexpander:
+            
+            startup(data_id="1", data=data)
+
+            if get_instance("1") is None:
+                startup(data_id="1", data=data)
+            
+            d = get_instance("1")
+            
+            html = """<iframe src="/dtale/main/1" height="1000" width="1400"></iframe>"""
+            
+            st.markdown(html, unsafe_allow_html=True)
+            checkbtn = st.button("Validate data")
+            if checkbtn == True:
+                df_amended = get_instance(data_id="1").data
+                st.write("Sample of amended data:")
+                st.write("")
+                st.write(df_amended.head(5))
+            clearchanges = st.button("Clear changes made to data")
+            if clearchanges == True:
+                global_state.cleanup()
+
+        exog_var = st.selectbox("Do you want an exogenous variable?", options=["Yes", "No"])
+
+        exog_var_choice = st.selectbox("Please choose which exogenous variable to use", data.columns)
+
+        data = data.rename(columns={exog_var_choice: 'exog_1'})
+
+        # Verify that a temporary index is complete
+        # ==============================================================================
+        (data.index == pd.date_range(start=data.index.min(),
+                                    end=data.index.max(),
+                                    freq=data.index.freq)).all()
+
+        # Fill gaps in a temporary index
+        # ==============================================================================
+        data.asfreq(freq='D', fill_value=np.nan)
+
+        # Split data into train-test
+        # ==============================================================================
+        steps = 36
+        data_train = data[:-steps]
+        data_test  = data[-steps:]
+
+        print(f"Train dates : {data_train.index.min()} --- {data_train.index.max()}  (n={len(data_train)})")
+        print(f"Test dates  : {data_test.index.min()} --- {data_test.index.max()}  (n={len(data_test)})")
+
+        fig, ax=plt.subplots(figsize=(9, 4))
+        data_train['y'].plot(ax=ax, label='train')
+        data_test['y'].plot(ax=ax, label='test')
+
+        if exog_var == "Yes":
+
+            data_train['exog_1'].plot(ax=ax, label='train_exog')
+            data_test['exog_1'].plot(ax=ax, label='test_exog')
+
+        ax.legend()
+
+        st.pyplot(fig)
+
+        # 1. Create and train forecaster with 8 lags
+        # ==============================================================================
+        forecaster = ForecasterAutoreg(
+                        regressor = RandomForestRegressor(random_state=123),
+                        lags = 8
+                        )
+
+        # Where no exogenous data for future periods is available
+
+        if exog_var == "No":
+
+            forecaster.fit(y=data_train['y'])
+
+        # Where exogenous data for future periods is available
+
+        if exog_var == "Yes":
+
+            forecaster.fit(y=data_train['y'], exog=data_train['exog_1'])
+
+        # Predictions
+        # ==============================================================================
+        steps = 36
+        if exog_var == "No":
+            predictions = forecaster.predict(steps=steps) # no future data for exog
+        if exog_var == "Yes":
+            predictions = forecaster.predict(steps=steps, exog=data_test['exog_1']) # future data for exog
+
+        st.table(predictions.tail(5))
+
+        # Plot
+        # ==============================================================================
+        fig, ax = plt.subplots(figsize=(9, 4))
+        data_train['y'].plot(ax=ax, label='train')
+        data_test['y'].plot(ax=ax, label='test')
+        predictions.plot(ax=ax, label='predictions')
+        ax.legend()
+
+        st.pyplot(fig)
+
+        # Test error
+        # ==============================================================================
+        error_mse = mean_squared_error(
+                        y_true = data_test['y'],
+                        y_pred = predictions
+                    )
+
+        st.write(f"Test error (mse): {error_mse}")
+
+        # Hyperparameter grid search to identify the best combination of lags and hyperparameters
+        # ==============================================================================
+        steps = 36
+        forecaster = ForecasterAutoreg(
+                        regressor = RandomForestRegressor(random_state=123),
+                        lags      = 12 # This value will be replaced in the grid search
+                    )
+
+        # Lags used as predictors
+        lags_grid = [10, 20]
+
+        # Regressor's hyperparameters
+        param_grid = {'n_estimators': [100, 500],
+                    'max_depth': [3, 5, 10]}
+
+        if exog_var == "No":
+
+            results_grid = grid_search_forecaster(
+                                forecaster         = forecaster,
+                                y                  = data_train['y'],
+                                param_grid         = param_grid,
+                                lags_grid          = lags_grid,
+                                steps              = steps,
+                                refit              = True,
+                                metric             = 'mean_squared_error',
+                                initial_train_size = int(len(data_train)*0.5),
+                                fixed_train_size   = False,
+                                return_best        = True,
+                                verbose            = False
+                    )
+
+        if exog_var == "Yes":
+
+            results_grid = grid_search_forecaster(
+                                forecaster  = forecaster,
+                                y           = data_train['y'],
+                                exog        = data_train['exog_1'],
+                                param_grid  = param_grid,
+                                lags_grid   = lags_grid,
+                                steps       = steps,
+                                refit       = True,
+                                metric      = 'mean_squared_error',
+                                initial_train_size = int(len(data_train)*0.5),
+                                return_best = True,
+                                verbose     = False
+                    )
+
+        # Grid Search results
+        # ==============================================================================
+        st.write(results_grid)
+
+        # Create and train forecaster with the best hyperparameters (not necessary if return_best=True specified above, but ensures certainty)
+        # ==============================================================================
+        # regressor = RandomForestRegressor(max_depth=3, n_estimators=500, random_state=123)
+        # forecaster = ForecasterAutoreg(
+        #                 regressor = regressor,
+        #                 lags      = 20
+        #              )
+
+        # forecaster.fit(y=data_train['y'])
+
+        # Predictions
+        # ==============================================================================
+        if exog_var =="No":
+
+            predictions = forecaster.predict(steps=steps)
+
+        if exog_var == "Yes":
+
+            predictions = forecaster.predict(steps=steps, exog=data_test['exog_1'])
+
+        # Plot
+        # ==============================================================================
+        fig, ax = plt.subplots(figsize=(9, 4))
+        data_train['y'].plot(ax=ax, label='train')
+        data_test['y'].plot(ax=ax, label='test')
+        predictions.plot(ax=ax, label='predictions')
+        ax.legend()
+
+        st.pyplot(fig)
+
+        # Test error
+        # ==============================================================================
+        error_mse = mean_squared_error(
+                        y_true = data_test['y'],
+                        y_pred = predictions
+                        )
+
+        st.write(f"Test error (mse): {error_mse}")
+
+        # Backtesting
+        # ==============================================================================
+        steps = 36
+        n_backtesting = 36*3 # The last 9 years are separated for the backtest
+
+        metric, predictions_backtest = backtesting_forecaster(
+                                            forecaster = forecaster,
+                                            y          = data['y'],
+                                            initial_train_size = len(data) - n_backtesting,
+                                            fixed_train_size   = False,
+                                            steps      = steps,
+                                            metric     = 'mean_squared_error',
+                                            refit      = True,
+                                            verbose    = True
+                                            )
+
+        st.write(f"Backtest error: {metric}")
+
+        fig, ax = plt.subplots(figsize=(9, 4))
+        data.loc[predictions_backtest.index, 'y'].plot(ax=ax, label='test')
+        predictions_backtest.plot(ax=ax, label='predictions')
+        ax.legend()
+
+        st.pyplot(fig)
+
+        # Predictors importance
+        # ==============================================================================
+        st.table(forecaster.get_feature_importance())
+            
+        st.subheader("Notes on forecasting")
+        
+        content = st_quill(placeholder="Write your notes here")
+        
+        buildpres = st.button("Build presentation")
+        if buildpres == True:
+            from pptx import Presentation
+            from pptx.enum.shapes import MSO_SHAPE
+            from pptx.dml.color import RGBColor
+            from pptx.util import Inches, Pt
+            from pptx.enum.dml import MSO_THEME_COLOR
+            title = '   Analytics Playground\n\
+            Results from analysis'
+            APlogo = './Powerpoint/APlogo.png'
+            ABIlogo = './Powerpoint/ABIlogo.png'
+            prs = Presentation()
+            slide = prs.slides.add_slide(prs.slide_layouts[6])
+            prs.slide_width = Inches(16)
+            prs.slide_height = Inches(9)
+            shape = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, Inches(9 / 1.5), Inches(16), Inches(9 / 8.5))
+
+            shape.shadow.inherit = False
+            fill = shape.fill
+            fill.solid()
+            fill.fore_color.rgb = RGBColor(255, 0, 0)
+            shape.text = title
+            line = shape.line
+            line.color.rgb = RGBColor(255, 0, 0)
+            logo1 = slide.shapes.add_picture(APlogo, Inches(13.5), Inches(6.0), height=Inches(1.08), width=Inches(1.0))
+
+            logo2 = slide.shapes.add_picture(ABIlogo, Inches(14.5), Inches(5.8), height=Inches(1.5), width=Inches(1.51))
+
+            slide = prs.slides.add_slide(prs.slide_layouts[6])
+            shape = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, Inches(0.5), Inches(16), Inches(0.3))
+
+            shape.shadow.inherit = False
+            fill = shape.fill
+            fill.solid()
+            fill.fore_color.rgb = RGBColor(255, 0, 0)
+            shape.text = "   Results from Exploratory Data Analysis"
+            line = shape.line
+            line.color.rgb = RGBColor(255, 0, 0)
+            logo1 = slide.shapes.add_picture(APlogo, Inches(14.5), Inches(0.4), height=Inches(0.5), width=Inches(0.5))
+
+            logo2 = slide.shapes.add_picture(ABIlogo, Inches(15.0), Inches(0.4), height=Inches(0.5), width=Inches(0.5))
+
+            left = Inches(1)
+            top = Inches(2)
+            width = Inches(5)
+            height = Inches(5)
+            text_box = slide.shapes.add_textbox(left, top, width, height)
+            tb = text_box.text_frame
+            tb.text = content
+            prg = tb.add_paragraph()
+            prg.text = " "
+            prg = tb.add_paragraph()
+            prg.text = ''
+            correlpic = slide.shapes.add_picture('correl.jpg', Inches(8), Inches(1.3), height=Inches(3.7), width=Inches(6.3))
+
+            ppspic = slide.shapes.add_picture('pps.jpg', Inches(8), Inches(5.1), height=Inches(3.7), width=Inches(7.3))
+
+            prs.save('EDA_presentation.pptx')
+            os.startfile("EDA_presentation.pptx")
+

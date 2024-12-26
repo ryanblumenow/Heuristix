@@ -1,0 +1,223 @@
+
+$('.subBtn').click(function (e) {
+    event.preventDefault();
+});
+var logWrapperId = "ed-uinfo-log-wrapper",
+    loggedWrapperId = "ed-uinfo-logged-wrapper",
+    signInEleId = "ed-uinfo-signin",
+    signUpEleId = "ed-uinfo-signup",
+    logoutEleId = "ed-uinfo-logout",
+    accountEleId = "ed-uinfo-account",
+    nicknameEleId = "ed-uinfo-nickname",
+    avatarEleId = "ed-uinfo-avatar";
+
+var authContainerId = "edraw-authorization";
+var authWrapper = "edraw-authorization--wrapper";
+
+var edLoginBuyFlag = false;
+var toHref = "";
+var firstLoading = false 
+var search = new URLSearchParams(location.search.slice(1));
+var loginType;
+// var edLoginInitframe = '';
+// var doubleEnter = false;
+function getToken(name) {
+    var cArr = document.cookie.split(';');
+    var tok;
+    var cName = name + '=';
+    if (document.cookie) {
+        cArr.forEach(function (t) {
+            var m = t.trim();
+            if (m.indexOf(cName) === 0) {
+                tok = m.slice(cName.length);
+            }
+        });
+    }
+    return tok || undefined
+}
+//绑定登录、注册、注销事件
+function bindAll() {
+    bind(signInEleId, showSignIn);
+    bind(signUpEleId, showSignUp);
+    bind(logoutEleId, logout);
+}
+
+function showSignIn(data) {
+    loginType = data
+    if(loginType === "redirect" && getToken("EDCurrent") ){
+        location.href = location.origin+ "/online";
+        return
+    }
+    $edAuth.show();
+}
+
+function showSignUp() {
+    $edAuth.showSignUp();
+}
+
+function logout() {
+    $edAuth.logout().then(function () {
+        location.reload();
+    });
+}
+
+function bind(eleId, listener) {
+    var el = document.getElementById(eleId);
+    if (!!el) { el.addEventListener("click", listener); }
+
+}
+
+//获取用户信息，更新相应element内容
+function updateUI(userInfo) {
+    var avatarEle = document.getElementById(avatarEleId),
+        nicknameEle = document.getElementById(nicknameEleId),
+        accountEle = document.getElementById(accountEleId),
+        account = userInfo.email || userInfo.user_name,
+        nickname = userInfo.nick_name;
+    avatarEle.innerText = nickname.substr(0, 1);
+    nicknameEle.innerText = nickname;
+    accountEle.innerText = account;
+    var logWrapper = document.getElementById(logWrapperId),
+        loggedWrapper = document.getElementById(loggedWrapperId);
+    logWrapper.setAttribute("style", "display:none !important");
+    loggedWrapper.setAttribute("style", "display:block !important");
+}
+
+function checkAuth() {
+    //校验登录
+    var successCb = function (userInfo) {
+        if(!firstLoading && !search.get("stay")){
+            location.href = location.origin+ "/online";
+            return
+        }
+        if(loginType === "redirect"){
+            location.href = location.origin+ "/online";
+            return
+        }
+        firstLoading = true
+        updateUI(userInfo);
+        $.get("https://viewer.edrawsoft.com/public/api/user/" + userInfo.user_id + "/encrypt", function (data, status) {
+            var customerKey = data.data.result;
+            // console.log(data)
+            $('.subBtn').each(function () {
+                console.log($(this))
+                $(this).attr('href', $(this).attr('href-data') + "&customer=" + customerKey + '&id=' + userInfo.user_id)
+            })
+            if (edLoginBuyFlag) {
+                location.href = toHref + "&customer=" + customerKey + '&id=' + userInfo.user_id;
+            }
+        })
+        $('.subBtn').unbind("click");
+    };
+    var failCb = function () {
+        //即使没登录也不显示登录框
+        // if(doubleEnter){
+        //     return
+        // }else{
+        //     doubleEnter = true
+        // }
+        firstLoading = true
+        if(search.get("auto")) {
+            loginType = "redirect"
+            var container = document.getElementById(authContainerId);
+            container.style.visibility = "visible";
+        }else{
+            var container = document.getElementById(authContainerId);
+            container.style.visibility = "hidden";
+        }
+
+        $('.subBtn').click(function (e) {
+
+            event.preventDefault();
+
+            //判断是否为全平台单品
+            // 匹配pid(en,fr,de,es,it,jp,pt,繁体)
+            // var pidArr = ['5371','5397','5399','5403','7160','5401','7161','8622'];
+            // // 匹配license ID
+            // var lidArr = ['1780','1781','1782','1783','1784','1812','1813','1814'];
+            toHref = $(this).attr('href-data');
+            // var urlParams = new URLSearchParams('?' + toHref.split('?')[1]);
+            // var pid = urlParams.get('pid');
+            // var license_id = urlParams.get('license_id');
+            // if(!edLoginInitframe){
+            //     edLoginInitframe = $('.edraw-auth--frame')[0].getAttribute('src')
+            // }
+            $('#ed-uinfo-signin').click();
+            // if(pidArr.indexOf(pid) > -1 && lidArr.indexOf(license_id) > -1){
+            //     if($('.edraw-auth--frame')[0].getAttribute('src') !== (edLoginInitframe + "&allplatform=1")){
+            //         $('.edraw-auth--frame')[0].setAttribute('src', edLoginInitframe + "&allplatform=1");
+            //         document.getElementById(authWrapper).style.height = '469px'
+            //     }
+            // }else{
+            //     if($('.edraw-auth--frame')[0].getAttribute('src') !== edLoginInitframe){
+            //         $('.edraw-auth--frame')[0].setAttribute('src',edLoginInitframe);
+            //         document.getElementById(authWrapper).style.height = '439px'
+            //     }
+            // }
+            edLoginBuyFlag = true;
+        });
+    };
+    var urlParams = new URLSearchParams(location.search);
+    var custom = urlParams.get('custom');
+    if (custom) {
+        var userInfo = atob(decodeURIComponent(urlParams.get('custom')));
+        var userObj = JSON.parse(userInfo);
+        if (userObj.token.length > 0 && Number(userObj.id) > 0) {
+            $.get('https://userapi.edrawsoft.com/api/user/' + userObj.id + '?token=' + userObj.token, function (data, status) {
+
+                // var now = new Date();
+
+                var exp = userObj.token.split(".")[1];
+                exp = JSON.parse(window.atob(exp)).exp;
+                var expDate = new Date(exp * 1000);
+
+                // var GMTStr = now.toUTCString();
+                // document.cookie =
+                //     "EDCurrent=" +
+                //     encodeURI(JSON.stringify(data.data)) +
+                //     "; expires=" +
+                //     GMTStr +
+                //     "; path=/;";
+                // var test = "EDCurrent=" +
+                //     encodeURI(JSON.stringify(data.data)) +
+                //     "; expires=" +
+                //     GMTStr +
+                //     "; path=/;";
+                successCb(data.data)
+
+
+                Cookies.set('EDCurrent',
+                    JSON.stringify(data.data), { expires: expDate, path: '/' });
+
+                console.log(document.cookie)
+            })
+        } else {
+            $edAuth
+                .checkLocalCookie()
+                .then(function (userInfo) {
+                    successCb(userInfo);
+                })
+                .catch(function () {
+                    console.log("LocalCookie invalid, try auth");
+                    $edAuth.auth(successCb, failCb);
+                });
+        }
+    } else {
+        $edAuth
+            .checkLocalCookie()
+            .then(function (userInfo) {
+                successCb(userInfo);
+            })
+            .catch(function () {
+                console.log("LocalCookie invalid, try auth");
+                $edAuth.auth(successCb, failCb);
+            });
+    }
+
+}
+
+document.addEventListener('DOMContentLoaded', function (event) {
+    if (!window.$edAuth) return
+    checkAuth()
+    bindAll()
+})

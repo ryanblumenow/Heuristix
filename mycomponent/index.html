@@ -1,0 +1,113 @@
+<html>
+  <body>
+    <!-- Set up your HTML here -->
+    <input id="myinput" value="" />
+
+    <script>
+      // ----------------------------------------------------
+      // Just copy/paste these functions as-is:
+
+      function sendMessageToStreamlitClient(type, data) {
+        var outData = Object.assign({
+          isStreamlitMessage: true,
+          type: type,
+        }, data);
+        window.parent.postMessage(outData, "*");
+      }
+
+      function init() {
+        sendMessageToStreamlitClient("streamlit:componentReady", {apiVersion: 1});
+      }
+
+      function setFrameHeight(height) {
+        sendMessageToStreamlitClient("streamlit:setFrameHeight", {height: height});
+      }
+
+      // The `data` argument can be any JSON-serializable value.
+      function sendDataToPython(data) {
+        sendMessageToStreamlitClient("streamlit:setComponentValue", data);
+      }
+
+      // ----------------------------------------------------
+      // Now modify this part of the code to fit your needs:
+
+      function reply_click(clicked_id)
+  {
+      alert(clicked_id);
+  }
+</script>
+  <script src="https://cdn.layerjs.org/libs/layerjs/layerjs-0.5.2.min.js" defer=""></script>
+  <link href="https://cdn.layerjs.org/libs/layerjs/layerjs-0.5.2.css" type="text/css" rel="stylesheet">
+   <link href="style.css" rel="stylesheet">
+<style>
+html, body {
+  height: 100%;
+}
+div {    height: 100px;
+    text-align: center;
+}
+</style>
+</head>
+<body height: 1000% lj-type="stage">
+  <div lj-type="layer" id="content-layer" lj-fit-to="responsive-width" lj-transition="fade" height=1000px>
+    <div lj-type="frame" id="home" lj-transition="zoomout">
+      Hello World
+      <br>
+      
+      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+      <style>
+    .zoom {
+    padding: 10px;
+    width: 210px;
+    height: 210px;
+    transition: transform .21s; /* Animation */
+    margin: 0 auto;
+    }
+    .zoom:hover {
+    transform: scale(1.1); /* (110% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    }
+    </style>
+      <a href="#more" id='Image1' onClick="reply_click(this.id)"><img width='21%' src='https://images.unsplash.com/photo-1565130838609-c3a86655db61?w=200' class='zoom w3-circle w3-hover-opacity'>
+      </a>
+    </div>
+    <div lj-type="frame" id="more">
+      More content...
+      <br>
+      <a href="#home&t=2s&p=zoomout">Back to home</a>
+       
+    </div>
+  </div>
+<script>
+
+
+    // data is any JSON-serializable value you sent from Python,
+    // and it's already deserialized for you.
+    function onDataFromPython(event) {
+    if (event.data.type !== "streamlit:render") return;
+    myInput.value = event.data.args.my_input_value;  // Access values sent from Python here!
+    }
+
+      myInput.addEventListener("change", function() {
+        sendDataToPython({
+          value: clicked_id,
+          dataType: "json",
+        });
+      })
+
+      // Hook things up!
+      window.addEventListener("message", onDataFromPython);
+      init();
+
+      // Hack to autoset the iframe height.
+      window.addEventListener("load", function() {
+        window.setTimeout(function() {
+          setFrameHeight(document.documentElement.clientHeight)
+        }, 0);
+      });
+
+      // Optionally, if the automatic height computation fails you, give this component a height manually
+      // by commenting out below:
+      // setFrameHeight(200);
+    </script>
+  </body>
+</html>

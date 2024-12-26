@@ -1,0 +1,18 @@
+compress_pickle
+hydralit >=1.0.9
+hydralit_components >=1.0.4
+streamlit >=0.89
+numpy==1.20
+hotstepper
+altair
+pandas
+spacy
+validators
+bokeh
+srsly
+spacy-streamlit
+astroquery
+sunpy
+astropy
+pydeck
+scipy

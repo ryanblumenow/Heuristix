@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streamlit Custom Component</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 600px;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .bar-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 20px;
+            height: 400px;
+            position: relative;
+        }
+
+        .bar {
+            width: 100px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .bar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .bar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .tooltip {
+            position: fixed; /* Ensure tooltip stays within the canvas */
+            background-color: white;
+            color: black;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            white-space: normal;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+            z-index: 1000;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            pointer-events: none;
+        }
+
+        .logo-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-container img {
+            width: 400px;
+            height: auto;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+
+<div class="bar-container">
+    <div id="Bar1" class="bar" style="height: 200px;" data-description="Heuristix is Analytical Insights, focusing on advanced data analysis." onclick="reply_click(this.id)">
+        <img src="https://i.postimg.cc/dtPM4tTB/landing-analytics3.jpg" alt="Analytical Insights">
+    </div>
+    <div id="Bar2" class="bar" style="height: 300px;" data-description="Heuristix is Domain Expertise, emphasizing industry knowledge." onclick="reply_click(this.id)">
+        <img src="https://i.postimg.cc/26Q5wJX2/landing-domainexpertise.jpg" alt="Domain Expertise">
+    </div>
+    <div id="Bar3" class="bar" style="height: 400px;" data-description="Heuristix is Artificial Cognition and Intelligence, leveraging advanced algorithms." onclick="reply_click(this.id)">
+        <img src="https://i.postimg.cc/g0pq49gT/landing-predictions.jpg" alt="Artificial Intelligence">
+    </div>
+    <div class="tooltip" id="tooltip"></div>
+</div>
+
+<div class="logo-container">
+    <img src="https://i.postimg.cc/TwhQX0JV/Heuristix-logo.png" alt="Heuristix">
+</div>
+
+<script>
+    // Tooltip handling logic
+    const bars = document.querySelectorAll('.bar');
+    const tooltip = document.getElementById('tooltip');
+
+    bars.forEach(bar => {
+        bar.addEventListener('mouseenter', (e) => {
+            const description = bar.getAttribute('data-description');
+            tooltip.textContent = description;
+            tooltip.style.opacity = '1';
+            tooltip.style.visibility = 'visible';
+
+            // Position tooltip outside the bar, to the top-right
+            const barRect = bar.getBoundingClientRect();
+            tooltip.style.left = `${barRect.right + 10}px`; // 10px to the right of the bar
+            tooltip.style.top = `${barRect.top}px`; // Align tooltip vertically with the bar
+        });
+
+        bar.addEventListener('mouseleave', () => {
+            tooltip.style.opacity = '0';
+            tooltip.style.visibility = 'hidden';
+        });
+    });
+
+    // Communication with Streamlit
+    function sendMessageToStreamlitClient(type, data) {
+        const outData = {
+            isStreamlitMessage: true,
+            type,
+            ...data,
+        };
+        window.parent.postMessage(outData, "*");
+    }
+
+    function init() {
+        sendMessageToStreamlitClient("streamlit:componentReady", {
+            apiVersion: 1,
+        });
+    }
+
+    function setFrameHeight(height) {
+        sendMessageToStreamlitClient("streamlit:setFrameHeight", {
+            height: height,
+        });
+    }
+
+    function sendDataToPython(data) {
+        sendMessageToStreamlitClient("streamlit:setComponentValue", data);
+    }
+
+    function onDataFromPython(event) {
+        if (event.data.type !== "streamlit:render") return;
+    }
+
+    // Hook things up!
+    window.addEventListener("message", onDataFromPython);
+    init();
+
+    // Autoset iframe height
+    window.addEventListener("load", function () {
+        setTimeout(function () {
+            setFrameHeight(document.documentElement.scrollHeight);
+        }, 100);
+    });
+
+    function reply_click(clickedId) {
+        sendDataToPython({
+            value: clickedId,
+            dataType: "json",
+        });
+    }
+</script>
+
+</body>
+</html>

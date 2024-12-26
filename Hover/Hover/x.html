@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+body{
+	padding-top: 50px;
+}
+.images{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.zoom {
+transition: transform .2s; /* Animation */
+width: 150px;
+height: 150px;
+margin: 0 auto;
+background:linear-gradient(rgba(0,0,0,.8),rgba(0,0,0,.4)),  url("Hover.jpeg")  ;
+background-size: cover;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-bottom: 50px;
+border-radius: 50%;
+}
+
+.zoom:hover {
+transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+.zoom:hover + .text .label:after{
+content:'changed text'; /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+.zoom:hover > span:after{
+content:'changed text'; /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+.zoom > span:after{
+content: 'hover me';
+color: #fff;
+font-size: 1.3em;
+font-weight: bold;
+text-transform: capitalize;
+}
+/*.label:after{
+content:'text I want to change';
+}
+.label:hover:after{
+content:'changed text';
+}*/
+.newText{
+text-align: center;
+margin-top: 50px;
+}
+
+</style>
+</head>
+<body>
+
+
+<div class="container">
+	
+	<div class="images">
+		
+		<div class="zoom">
+		<span></span>
+		</div>
+		<div class="zoom">
+		<span></span>
+		</div>
+		<div class="zoom">
+		<span></span>
+		</div>
+		<div class="zoom">
+		<span></span>
+		</div>
+		<div class="zoom">
+		<span></span>
+		</div>
+		<div class="zoom">
+		<span></span>
+		</div>
+		<div class="zoom">
+		<span></span>
+		</div>
+		<div class="zoom">
+		<span></span>
+		</div>
+	</div>
+
+	<div class="new-text-container">
+		
+	</div>
+
+</div>
+
+
+<!-- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<div class="container1">
+	<div class="zoom">
+		<span></span>
+	</div>
+
+<div class="text">
+	<p>text <span class="label"></span> text</p>
+</div>
+
+<div class="new-text-container" data-used="no">
+</div>
+</div>
+
+<div class="container2">
+	<div class="zoom">
+		<span></span>
+	</div>
+
+<div class="text">
+	<p>text <span class="label"></span> text</p>
+</div>
+
+<div class="new-text-container" data-used="no">
+</div>
+</div>
+
+<div class="container3">
+	<div class="zoom">
+		<span></span>
+	</div>
+
+<div class="text">
+	<p>text <span class="label"></span> text</p>
+</div>
+
+<div class="new-text-container" data-used="no">
+</div>
+</div>
+
+<div class="container4">
+	<div class="zoom">
+		<span></span>
+	</div>
+
+<div class="text">
+	<p>text <span class="label"></span> text</p>
+</div>
+
+<div class="new-text-container" data-used="no">
+</div>
+</div> -->
+</body>
+<script>
+	// var x=0;
+	// document.querySelector(".zoom").addEventListener('click',()=>{ 
+	// if(x==0){
+	// 	const newDiv = document.createElement("div");
+	// newDiv.class="newText";
+ //  	const newContent = document.createTextNode("Hi there and greetings!");
+ //  	newDiv.appendChild(newContent);
+ //  	document.querySelector(".new-text-container").appendChild(newDiv);
+ //  	// x=1;
+	// }
+	// });
+	const Messages = ["Message1", "Message2", "Message3","Message4","Message5","Message6","Message7","Message8"];
+	document.querySelectorAll('.zoom').forEach( (item,index) => {
+  item.addEventListener('click', () => {
+  	if(document.querySelector(".newText")){
+  		document.querySelector(".newText").remove();
+  	}
+  	const newDiv = document.createElement("div");
+  	newDiv.classList.add("newText");;
+  	const newContent = document.createTextNode(Messages[index]);
+  	newDiv.appendChild(newContent);
+  	document.querySelector(`.new-text-container`).appendChild(newDiv);
+
+  })
+})
+</script>
+</html>

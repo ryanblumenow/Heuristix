@@ -1,0 +1,81 @@
+/****************************************************
+ *  project: edraw website 2020 main pages          *
+ *  description: download redirect                  *
+ *  author: qinbo@wondershare.cn                    *
+ *  update: 210910                                  *
+ *  update description: optimized redirect          *
+ ****************************************************/
+var done = false
+var fn = function () {
+  document.querySelectorAll('a').forEach(function (v) {
+    var attr_href = v.getAttribute('href')
+
+    if (!attr_href || attr_href.match(/^#|javascript|\.html$/gm)) return
+
+    var link = attr_href.toLowerCase().replace(/_/g, '-').replace(/-/g, '')
+    var path = {
+      check: true,
+      product: 'none',
+      pool: [{
+        type: 'product',
+        check: false,
+        pool: [
+          'edrawmax', 'edrawmind', 'mindmaster', 'edrawproject', 'edrawproj', 
+          'edrawinfo', 'orgchartcreator', 'orgcharting', 'component', 'edwordsetup', 
+          'edofficesetup', 'edexcelsetup', 'pdfviewersetup', 'edboardsetup'
+        ]
+      }, {
+        type: 'base',
+        check: false,
+        pool: ['download.edrawsoft.com/', 'www.edrawsoft.com/']
+      }, {
+        type: 'format',
+        check: false,
+        pool: ['.exe', '.dmg', '.zip', '.pkg', '.rpm', '.deb']
+      }]
+    }
+
+    path.pool.forEach(function (t1) {
+      t1.pool.forEach(function (t2) {
+        if (!t1.check && link.indexOf(t1.type === 'product' ? t2.replace(/-/g, '') : t2) > -1) {
+          t1.check = true
+          if (t1.type === 'product') path.product = t2
+        }
+      })
+
+      if (path.check && !t1.check) path.check = false
+    })
+
+    if (path.check) {
+      var product = path.product.match(/mind/) ? 'edrawmind' 
+                    : (path.product.match(/proj/) ? 'edrawproj' 
+                      : (path.product.match(/orgchart/) ? 'orgcharting' 
+                        : (path.product.match(/component|setup/) ? 'component' 
+                          : path.product)))
+
+      if (navigator.userAgent.match(/IEMobile|BlackBerry|Android|iPod|iPhone|iPad/i)) {
+        v.setAttribute('href', window.location.origin + '/mobile-download-guidance-' + product + '.html')
+      } else {
+        v.onclick = function () {
+          window.open(window.location.origin + '/download-guidance-' + product + '.html?download_url=' + encodeURIComponent(attr_href))
+        }
+      }
+
+      done = true
+    }
+  })
+}
+
+var timer = null
+var checked = function () {
+  timer = setTimeout(function () {
+    if (!done) {
+      clearTimeout(timer)
+      fn()
+    } else {
+      checked()
+    }
+  }, 500)
+}
+
+checked()

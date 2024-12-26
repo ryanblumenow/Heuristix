@@ -1,0 +1,236 @@
+<html>
+  <head>
+    <script
+      src="https://cdn.layerjs.org/libs/layerjs/layerjs-0.5.2.min.js"
+      defer=""
+    ></script>
+    <link
+      href="https://cdn.layerjs.org/libs/layerjs/layerjs-0.5.2.css"
+      type="text/css"
+      rel="stylesheet"
+    />
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        background-color:beige;
+      }
+
+      .stage {
+        text-align: center;
+        height: 521px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="stage" lj-type="stage">
+      <div
+        lj-type="layer"
+        id="content-layer"
+        lj-fit-to="responsive-width"
+        lj-transition="fade"
+      >
+        <div lj-type="frame" id="home" lj-transition="zoomout">
+          <b>Analytix steps</b>
+          <br />
+
+          <link
+            rel="stylesheet"
+            href="https://www.w3schools.com/w3css/4/w3.css"
+          />
+          <style>
+            .zoom {
+              padding: 10px;
+              width: 193px;
+              height: 193px;
+              transition: transform 0.21s; /* Animation */
+              margin: 0 auto;
+            }
+            .zoom:hover {
+              transform: scale(
+                1.1
+              ); /* (110% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+            }
+          </style>
+
+          <a href="#more1" id="EDA" onClick="reply_click(this.id)"
+            ><img
+              src="https://i.postimg.cc/67YnrDNB/edalbl.jpg"
+              alt="Exploratory data analysis"
+              class="zoom w3-circle w3-hover-opacity"
+            />
+          </a>                            
+
+          <a href="#more2" id="Correlation analysis" onClick="reply_click(this.id)"
+            ><img
+              src="https://i.postimg.cc/68xrtr0x/correllbl.jpg"
+              class="zoom w3-circle w3-hover-opacity"
+            />
+          </a>
+
+          <a href="#more3" id="Hypothesis testing" onClick="reply_click(this.id)"
+            ><img
+              src="https://i.postimg.cc/94TszY3P/hyptestinglbl.jpg"
+              class="zoom w3-circle w3-hover-opacity"
+            />
+          </a>
+
+          <a href="#more4" id="Dimension reduction" onClick="reply_click(this.id)"
+              ><img
+                src="https://i.postimg.cc/0zGpQzWM/dimreductionlbl.jpg"
+                class="zoom w3-circle w3-hover-opacity"
+              />
+          </a>
+
+            <a href="#more5" id="ANOVA analysis" onClick="reply_click(this.id)"
+              ><img
+                src="https://i.postimg.cc/dQ4ZtMJ2/anovalbl.png"
+                class="zoom w3-circle w3-hover-opacity"
+              />
+          </a>
+
+          <a href="#more6" id="Regression analysis" onClick="reply_click(this.id)"
+              ><img
+                src="https://i.postimg.cc/8j6R2KLb/regressionlbl.jpg"
+                class="zoom w3-circle w3-hover-opacity"
+              />
+          </a>
+
+          <a href="#more7" id="Clustering analysis" onClick="reply_click(this.id)"
+              ><img
+                src="https://i.postimg.cc/yJV0S7tf/clusterlbl.jpg"
+                class="zoom w3-circle w3-hover-opacity"
+              />
+          </a>
+
+          <a href="#more8" id="Conjoint analysis" onClick="reply_click(this.id)"
+              ><img
+                src="https://i.postimg.cc/CdtC6Tn1/conjointlbl.jpg"
+                class="zoom w3-circle w3-hover-opacity"
+              />
+          </a>
+
+          <a href="#more9" id="Neural networks" onClick="reply_click(this.id)"
+              ><img
+                src="https://i.postimg.cc/RZQB4mB9/neuralnetlbl.png"
+                class="zoom w3-circle w3-hover-opacity"
+              />
+          </a>
+
+          <a href="#more10" id="Decision trees" onClick="reply_click(this.id)"
+              ><img
+                src="https://i.postimg.cc/34NpnnKm/decisionslbl.jpg"
+                class="zoom w3-circle w3-hover-opacity"
+              />
+          </a>
+        </div>
+
+        <div lj-type="frame" id="more1">
+          <br />Exploratory data analysis allows you to holistically look at the data to determine trends and patterns. This is all about experimentation. Don't be afraid to try the different menu items available in the tool below! EDA generally refers to the critical process of performing initial investigations on data so as to summarize the main characteristics, discover patterns and interesting insights,to spot anomalies,to test hypothesis and to check assumptions with the help of summary statistics and graphical representations. Primarily, EDA is for seeing what the data can tell us beyond the formal modelling, checking assumptions required for model fitting and hypothesis testing, and handling missing values and making transformations of variables as needed.
+          <br /><br />
+          <a href="#home&t=2s&p=zoomout">Back to home</a>
+        </div>
+        <div lj-type="frame" id="more2">
+          <br />The correlation coefficient (ρ) is a measure that determines the degree to which the movement of two different variables is associated. Correlation coefficients are indicators of the strength of the linear relationship between two different variables, x and y. A linear correlation coefficient that is greater than zero indicates a positive relationship. A value that is less than zero signifies a negative relationship. Finally, a value of zero indicates no relationship between the two variables x and y.
+          <br /><br />
+          <a href="#home&t=2s&p=zoomout">Back to home</a>
+        </div>
+        <div lj-type="frame" id="more3">
+          <br />Hypothesis testing is a methodology wherein you formulate a idea about a particular pattern in the data, and then design a statistical experiment to determine whether or not the hypothesised pattern actually manifests in the data. The hypothesis can be about the nature of a particular variable, such as its distribution or underlying characteristics, or about how variables relate to each other.
+          <br /><br />
+          <a href="#home&t=2s&p=zoomout">Back to home</a>
+        </div>
+        <div lj-type="frame" id="more4">
+          <br />Dimension reduction aims to reduce the number of factors introduced to a model as explanatory variables. This not only avoids spurious analysis due to correlation between explanatory variables, but allows for stronger associations between variables to come to the fore, meaning regression analysis for the impacts of movements in one variable on the behaviour of another can be made significantly stronger with fewer intrusive indirect effects at play from variables of lesser importance. This strengthens your ability to run meaningful hypothesis tests.
+          <br /><br />
+          <a href="#home&t=2s&p=zoomout">Back to home</a>
+        </div>
+        <div lj-type="frame" id="more5">
+          <br />ANOVA analysis aims to identify which variables have the greatest impact on a chosen target variable. This can help to understand relationships in the data for important variables.
+          <br /><br />
+          <a href="#home&t=2s&p=zoomout">Back to home</a>
+        </div>
+        <div lj-type="frame" id="more6">
+          <br />Regression analysis tests for causality amongst variables, where movement in one variable causes movement in another. The idea is to formulate a model that predicts how these interactions happen, and to what degree, and then to use the model to predict changes in the dependent variable given changes in the various explanatory variables.
+          <br /><br />
+          <a href="#home&t=2s&p=zoomout">Back to home</a>
+        </div>
+        <div lj-type="frame" id="more7">
+          <br />Clustering enables you to group similar observations together based on their underlying characteristics and behaviours. This means a dataset can be broken down into groups of observations that exhibit similar behaviours, which dramatically improves the predictive power when assessing how future behaviour within, and between, these groups will change.
+          <br /><br />
+          <a href="#home&t=2s&p=zoomout">Back to home</a>
+        </div>
+        <div lj-type="frame" id="more8">
+          <br />Conjoint analysis is a form of statistical analysis that firms use in market research to understand how customers value different components or features of their products or services. This determines customers' preferences and enables better targeting and engagement, especially if combined with focused groups, or clusters, of customers.
+          <br /><br />
+          <a href="#home&t=2s&p=zoomout">Back to home</a>
+        </div>
+        <div lj-type="frame" id="more9">
+          <br />Neural network analysis aims to understand how movements in particular variables impact a chosen target variable by assessing a complex mathematical representation of how these variables interact given the patterns in the data.
+          <br /><br />
+          <a href="#home&t=2s&p=zoomout">Back to home</a>
+        </div>
+        <div lj-type="frame" id="more10">
+          <br />A decision tree is a decision support tool that uses a tree-like model of decisions and their possible consequences, including chance event outcomes, resource costs, and utility. In decision analysis, a decision tree can be used to visually and explicitly represent decisions and decision making. A decision tree is a specific type of flow chart used to visualize the decision-making process by mapping out different courses of action, as well as their potential outcomes, and describes how decisions are made based on factors and variables present in the data and observed behaviour.
+          <br /><br />
+          <a href="#home&t=2s&p=zoomout">Back to home</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function sendMessageToStreamlitClient(type, data) {
+        var outData = Object.assign(
+          {
+            isStreamlitMessage: true,
+            type: type,
+          },
+          data
+        );
+        window.parent.postMessage(outData, "*");
+      }
+
+      function init() {
+        sendMessageToStreamlitClient("streamlit:componentReady", {
+          apiVersion: 1,
+        });
+      }
+
+      function setFrameHeight(height) {
+        sendMessageToStreamlitClient("streamlit:setFrameHeight", {
+          height: height,
+        });
+      }
+
+      function sendDataToPython(data) {
+        sendMessageToStreamlitClient("streamlit:setComponentValue", data);
+      }
+
+      function onDataFromPython(event) {
+        if (event.data.type !== "streamlit:render") return;
+      }
+
+      // Hook things up!
+      window.addEventListener("message", onDataFromPython);
+      init();
+
+      // Hack to autoset the iframe height.
+      window.addEventListener("load", function () {
+        window.setTimeout(function () {
+          setFrameHeight(document.documentElement.clientHeight);
+        }, 0);
+      });
+
+      setFrameHeight(390);
+
+      function reply_click(clickedId) {
+        sendDataToPython({
+          value: clickedId,
+          dataType: "json",
+        });
+      }
+    </script>
+  </body>
+</html>

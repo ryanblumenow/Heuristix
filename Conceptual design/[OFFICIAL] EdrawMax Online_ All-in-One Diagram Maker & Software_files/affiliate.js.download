@@ -1,0 +1,590 @@
+//affiliate
+ready_cookie();
+
+function ready_cookie() {
+  var a;
+  var domain = getDomain();
+  if (document.referrer.indexOf('shareasale.com') >= 0) {
+    a = 'shareasale';
+  } else {
+    a = getParameter(window.location.href, 'src');
+  }
+  if (a != null) {
+    SetCookie('last_linkid', a, domain);
+    SaveCookie(a);
+  }
+}
+
+function getDomain() {
+  var hrf = window.location.href;
+  var startIndex = hrf.indexOf('.');
+  var getIndex = hrf.indexOf('.', startIndex + 1);
+  var endIndex = hrf.indexOf('/', getIndex + 1);
+  var domain = hrf.substring(startIndex, endIndex);
+  return domain;
+}
+
+function getParameter(b, a) {
+  var c = b.match(new RegExp('[?&]' + a + '=([^&]*)(&?)', 'i'));
+  if (c ? c[1] : c == null) {
+    return c ? c[1] : c;
+  }
+}
+
+// function getCookie(c) {
+// 	var d = document.cookie.split("; ");
+// 	for (var b = 0; b < d.length; b++) {
+// 		var a = d[b].split("=");
+// 		if (a[0] == c) {
+// 			// unescape() Usually
+// 			// use decodeURI or decodeURIComponent
+// 			return unescape(a[1])
+// 		}
+// 	}
+// }
+/**
+ * @description new getCookie function 2021-09-23
+ * @author yankang@300624.cn
+ * @param {String} cookieName
+ * @return {String}
+ */
+function getCookie(cookieName) {
+  var cookie = document.cookie;
+  var i = cookie.indexOf(cookieName);
+  if (i > -1) {
+    var starti = i + cookieName.length + 1;
+    var endi = cookie.indexOf(';', starti);
+    var cookieValue = '';
+    if (endi == -1) {
+      cookieValue = cookie.slice(starti);
+    } else {
+      cookieValue = cookie.slice(starti, endi);
+    }
+    return decodeURIComponent(cookieValue);
+  }
+  return null;
+}
+
+function serviceCookie(params) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', location.origin + '/trk', true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        adrId: xhr.responseText
+      });
+    }
+  };
+  xhr.send(params);
+}
+
+function SetCookie(b, d, a) {
+  var c = 60;
+  var e = new Date();
+  e.setTime(e.getTime() + c * 24 * 60 * 60 * 1000);
+  document.cookie = b + '=' + escape(d) + ';expires=' + e.toGMTString() + '; domain=' + a + ';path=/';
+}
+
+function SetCookie_customer(b, d, a, days) {
+  var c = days ? days : 60;
+  var e = new Date();
+  e.setTime(e.getTime() + c * 24 * 60 * 60 * 1000);
+  document.cookie = b + '=' + escape(d) + ';expires=' + e.toGMTString() + '; domain=' + a + ';path=/';
+}
+
+function is_exist_cookie(d, l, b) {
+  var domain = getDomain();
+  var e = d.split('||');
+  var j = '';
+  var a = 0;
+  for (var c = 0; c < e.length; c++) {
+    var h = e[c].split('&');
+    var g = h[0].split('=');
+    var f = h[1].split('=');
+    if (g[1] == l) {
+      var k = b;
+      a = 1;
+    } else {
+      var k = f[1];
+    }
+    if (b > k + 60 * 24 * 60 * 60 * 1000) {
+      continue;
+    }
+    if (c == 0) {
+      j = 'affilate=' + g[1] + '&time=' + k;
+    } else {
+      if (j.replace(/(^\s*)|(\s*$)/g, '') != '') {
+        j += '||affilate=' + g[1] + '&time=' + k;
+      } else {
+        j = 'affilate=' + g[1] + '&time=' + k;
+      }
+    }
+  }
+  if (a == 0) {
+    if (j.replace(/(^\s*)|(\s*$)/g, '') != '') {
+      j += '||affilate=' + l + '&time=' + b;
+    } else {
+      j = 'affilate=' + l + '&time=' + b;
+    }
+  }
+  SetCookie('Affilate_Cookies', j, domain);
+  SetCookie('Affilate_Search', location.search, domain);
+}
+
+function SaveCookie(c) {
+  var domain = getDomain();
+  var d = getCookie('Affilate_Cookies');
+  var a = new Date();
+  var b = a.getTime();
+  if (typeof d != 'undefined' && d != '' && d !== null) {
+    is_exist_cookie(d, c, b);
+  } else {
+    d = 'affilate=' + c + '&time=' + b;
+    SetCookie('Affilate_Cookies', d, domain);
+    SetCookie('Affilate_Search', location.search, domain);
+  }
+}
+
+// set_init_href();
+function set_buy_href(e) {
+  var d = $('#' + e).attr('href');
+  var a = 0;
+  if (typeof d == 'undefined' || d == '') {
+    d = $('#' + e).val();
+    a = 1;
+  }
+  var c = getCookie('last_linkid');
+  var b = '';
+  if (typeof c != 'undefined' && c != '') {
+    b = '&lang=' + c;
+  }
+  if (a == 1) {
+    $('#' + e).val(d + b);
+  } else {
+    $('#' + e).attr('href', d + b);
+  }
+}
+
+function set_init_href() {
+  set_buy_href('form_a');
+  set_buy_href('s11');
+  set_buy_href('payment_url');
+  set_buy_href('paypal_buy');
+  set_buy_href('buy_url');
+  set_buy_href('swreg_url');
+  for (var a = 1; a < 6; a++) {
+    set_buy_href('buy_swreg_' + a);
+  }
+  for (var a = 1; a < 5; a++) {
+    set_buy_href('buy-' + a);
+  }
+}
+
+// tradedoubler
+function ready_cookie_tradedoubler() {
+  var domain = getDomain();
+  var a = getParameter(window.location.href, 'tduid');
+  var b = document.referrer;
+  if (a != null && b.indexOf('clk.tradedoubler.com') >= 0) {
+    SetCookie_customer('TRADEDOUBLER', a, domain, 365);
+    SaveCookie('tradedoubler');
+  }
+}
+ready_cookie_tradedoubler();
+// END tradedoubler
+
+// Daisycon added 2021-06-03
+function ready_cookie_daisycon() {
+  var domain = getDomain();
+  var a = getParameter(window.location.href, 'dci');
+  var src = getParameter(window.location.href, 'src');
+  if (a != null || src == 'dsc') {
+    SetCookie_customer('DAISYCON', a, domain, 365);
+    SaveCookie('daisycon');
+  }
+}
+ready_cookie_daisycon();
+// END Daisycon
+
+// 落地页custom
+function ready_cookie_custom() {
+  var domain = getDomain();
+  var a = getParameter(window.location.href, 'custom');
+  if (a != null) {
+    SetCookie_customer('extra_param', a, domain, 365);
+  }
+}
+ready_cookie_custom();
+
+// indoleads平台 added 2021-12-30
+(function () {
+  if (getParameter(window.location.href, 'utm_term') === 'indoleads' && getParameter(window.location.href, 'utm_content')) {
+    SetCookie_customer('indoleads_click', getParameter(window.location.href, 'utm_content'), getDomain(), 180);
+  }
+})();
+
+// ga keywords rank
+if (document.referrer.match(/google\.([a-zA-Z]{2,5})/gi) && document.referrer.match(/cd/gi)) {
+  var myString = document.referrer;
+  var r = myString.match(/cd=(.*?)&/);
+  var rank = parseInt(r[1]);
+  var kw = myString.match(/q=(.*?)&/);
+  var engine = myString.split('/')[2];
+
+  if (kw[1].length > 0) {
+    var keyWord = decodeURI(kw[1]);
+  } else {
+    keyWord = '(not provided)';
+  }
+
+  var pn = document.location.pathname;
+  _gaq.push(['_trackEvent', engine, keyWord, pn, rank, true]);
+}
+
+//iframe tracker
+// (function($) {
+//     $.fn.iframeTracker = function(handler) {
+//         $.iframeTracker.handlersList.push(handler);
+//         $(this).bind('mouseover', {
+//                 handler: handler
+//             },
+//             function(e) {
+//                 e.data.handler.over = true;
+//                 try {
+//                     e.data.handler.overCallback(this);
+//                 } catch(ex) {}
+//             }).bind('mouseout', {
+//                 handler: handler
+//             },
+//             function(e) {
+//                 e.data.handler.over = false;
+//                 $.iframeTracker.focusRetriever.focus();
+//                 try {
+//                     e.data.handler.outCallback(this);
+//                 } catch(ex) {}
+//             });
+//     };
+//     $.iframeTracker = {
+//         focusRetriever: null,
+//         focusRetrieved: false,
+//         handlersList: [],
+//         isIE8AndOlder: false,
+//         init: function() {
+//             try {
+//                 if ($.browser.msie == true && $.browser.version < 9) {
+//                     this.isIE8AndOlder = true;
+//                 }
+//             } catch(ex) {
+//                 try {
+//                     var matches = navigator.userAgent.match(/(msie) ([\w.]+)/i);
+//                     if (matches[2] < 9) {
+//                         this.isIE8AndOlder = true;
+//                     }
+//                 } catch(ex2) {}
+//             }
+//             $(window).focus();
+//             $(window).blur(function(e) {
+//                 $.iframeTracker.windowLoseFocus(e);
+//             });
+//             $('body').append('<div style="position:fixed; top:0; left:0; overflow:hidden;"><input style="position:absolute; left:-300px;" type="text" value="" id="focus_retriever" readonly="true" /></div>');
+//             this.focusRetriever = $('#focus_retriever');
+//             this.focusRetrieved = false;
+//             $(document).mousemove(function(e) {
+//                 if (document.activeElement && document.activeElement.tagName == 'IFRAME') {
+//                     $.iframeTracker.focusRetriever.focus();
+//                     $.iframeTracker.focusRetrieved = true;
+//                 }
+//             });
+//             if (this.isIE8AndOlder) {
+//                 this.focusRetriever.blur(function(e) {
+//                     e.stopPropagation();
+//                     e.preventDefault();
+//                     $.iframeTracker.windowLoseFocus(e);
+//                 });
+//             }
+//             if (this.isIE8AndOlder) {
+//                 $('body').live('click',
+//                     function(e) {
+//                         $(window).focus();
+//                     });
+//                 $('form').live('click',
+//                     function(e) {
+//                         e.stopPropagation();
+//                     });
+//                 try {
+//                     $('body').on('click', 'form',
+//                         function(e) {
+//                             e.stopPropagation();
+//                         });
+//                 } catch(ex) {
+//                     console.log("[iframeTracker] Please update jQuery to 1.7 or newer. (exception: " + ex.message + ")");
+//                 }
+//             }
+//         },
+//         windowLoseFocus: function(event) {
+//             for (var i in this.handlersList) {
+//                 if (this.handlersList[i].over == true) {
+//                     try {
+//                         this.handlersList[i].blurCallback();
+//                     } catch(ex) {}
+//                 }
+//             }
+//         }
+//     };
+//     $(document).ready(function() {
+//         $.iframeTracker.init();
+//     });
+// })(jQuery);
+
+// cj code by wxl 2019-01-21
+(function () {
+  if (getParameter(window.location.href, 'src') == 'cj' && getParameter(window.location.href, 'cjevent')) {
+    var cjevent = encodeURIComponent(getParameter(window.location.href, 'cjevent'));
+    var affsrc = encodeURIComponent('src=cj&cjevent=' + getParameter(window.location.href, 'cjevent'));
+    var affiliate_search = encodeURIComponent(location.search);
+    serviceCookie('cjevent=' + cjevent + '&affsrc=' + affsrc + '&Affilate_Search=' + affiliate_search);
+  }
+})();
+
+// lc code by wxl 2019-05-28
+(function () {
+  if (getParameter(window.location.href, 'usource') == 'lc') {
+    var Affilate_Cookies = encodeURIComponent('affilate=linkconnector&lctid=' + getParameter(window.location.href, 'lctid'));
+    var affsrc = encodeURIComponent('affilate=linkconnector&lctid=' + getParameter(window.location.href, 'lctid'));
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&affsrc=' + affsrc + '&Affilate_Search=' + Affilate_Search);
+  }
+  // add mopubilite affilate code modify by yankang 2021-10-18
+  // if (getParameter(window.location.href, 'utm_source') == 'mopubilite' || getParameter(window.location.href, 'utm_medium') == 'mopubilite') {
+  //   // var domain = getDomain();
+  //   // SetCookie('Affilate_Cookies', 'mopubilite', domain);
+  //   // SetCookie('Affilate_Search', location.search, domain);
+  //   var transaction_id = getParameter(window.location.href, 'transaction_id');
+  //   var Affilate_Cookies = encodeURIComponent('affilate=mopubilite&transaction_id=' + transaction_id);
+  //   var Affilate_Search = encodeURIComponent(location.search);
+  //   serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+  // }
+  if(getParameter( window.location.href ,'utm_source') == 'mopubi' || getParameter( window.location.href ,'utm_medium') == 'mopubi'){
+    var domain = getDomain();
+    SetCookie('Affilate_Cookies', 'mopubi',domain);
+    SetCookie('Affilate_Search', location.search ,domain);
+    var Affilate_Cookies = encodeURIComponent('affilate=mopubi');
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+  }
+  // add a8 affilate code modify by pengpp 2019-08-06
+  if (getParameter(window.location.href, 'a8')) {
+    var Affilate_Cookies = encodeURIComponent('affilate=a8&A8_DELIVERY=' + getParameter(window.location.href, 'a8'));
+    var affsrc = encodeURIComponent('affilate=a8&A8_DELIVERY=' + getParameter(window.location.href, 'a8'));
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&affsrc=' + affsrc + '&Affilate_Search=' + Affilate_Search);
+  }
+  // a = "shareasale";
+  // add shareasale affilate code modify by pengpp 2019-10-21
+  if (document.referrer.indexOf('shareasale.com') >= 0) {
+    var affsrc = encodeURIComponent('affilate=shareasale&last_linkid=' + getParameter(window.location.href, 'src'));
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('affsrc=' + affsrc + '&Affilate_Search=' + Affilate_Search);
+  }
+  // add shareasale affilate code modify by pengpp 2019-10-21
+  if (getParameter(window.location.href, 'tduid') != null && document.referrer.indexOf('clk.tradedoubler.com') >= 0) {
+    var affsrc = encodeURIComponent('affilate=tradedoubler&TRADEDOUBLER=' + getParameter(window.location.href, 'tduid'));
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('affsrc=' + affsrc + '&Affilate_Search=' + Affilate_Search);
+  }
+  // add shareasale affilate code daisycon added by daisycon 2021-06-03
+  if (getParameter(window.location.href, 'dci') != null || getParameter(window.location.href, 'src') == 'dsc') {
+    var Affilate_Cookies = encodeURIComponent('affilate=daisycon&DAISYCON=' + getParameter(window.location.href, 'dci'));
+    var affsrc = encodeURIComponent('affilate=daisycon&DAISYCON=' + getParameter(window.location.href, 'dci'));
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + 'affsrc=' + affsrc + '&Affilate_Search=' + Affilate_Search);
+  }
+  // end shareasale affilate code daisycon
+  // add mms code pengpp 2019-11-08
+  if (getParameter(window.location.href, 'src') == 'follow_effect' && getParameter(window.location.href, 'active_id')) {
+    var Affilate_Cookies = encodeURIComponent('follow_effect&active_id=' + getParameter(window.location.href, 'active_id'));
+    var affsrc = encodeURIComponent('affilate=follow_effect&active_id=' + getParameter(window.location.href, 'active_id'));
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&affsrc=' + affsrc + '&Affilate_Search=' + Affilate_Search);
+  }
+  // add sscid code caopc 2020-02-24
+  if (getParameter(window.location.href, 'sscid')) {
+    var Affilate_Search = encodeURIComponent(location.search);
+    if (getParameter(window.location.href, 'ranMID') && getParameter(window.location.href, 'ranEAID') && getParameter(window.location.href, 'ranSiteID')) {
+      // linkshare
+      var Affilate_Value = 'affilate=sscid&sscid=' + getParameter(window.location.href, 'sscid') + '&ranMID=' + getParameter(window.location.href, 'ranEAID') + '&ranEAID=' + getParameter(window.location.href, 'ranEAID') + '&ranSiteID=' + getParameter(window.location.href, 'ranSiteID');
+      serviceCookie('Affilate_Cookies=' + encodeURIComponent(Affilate_Value) + '&affsrc=' + encodeURIComponent(Affilate_Value) + '&Affilate_Search=' + Affilate_Search);
+    } else {
+      // shareasale
+      serviceCookie('Affilate_Cookies=' + encodeURIComponent('affilate=shareasale&last_linkid=' + getParameter(window.location.href, 'sscid')) + '&Affilate_Search=' + Affilate_Search);
+    }
+  }
+  // add bd_vid code caopc 2020-03-21
+  if (getParameter(window.location.href, 'bd_vid')) {
+    var Affilate_Cookies = encodeURIComponent('affilate=bd_vid&bd_vid=' + window.location.href);
+    var affsrc = encodeURIComponent('affilate=bd_vid&bd_vid=' + window.location.href);
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&affsrc=' + affsrc + '&Affilate_Search=' + Affilate_Search);
+  }
+  // add hi_pdf code caopc 2020-04-03
+  if (getParameter(window.location.href, 'src') == 'hi_pdf') {
+    var Affilate_Cookies = encodeURIComponent('affilate=hi_pdf&src=hi_pdf');
+    var affsrc = encodeURIComponent('affilate=hi_pdf&src=hi_pdf');
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&affsrc=' + affsrc + '&Affilate_Search=' + Affilate_Search);
+  }
+  // add admitad code caopc 2020-06-15
+  if (getParameter(window.location.href, 'utm_source') == 'admitad') {
+    var tag_id = getParameter(window.location.href, 'tagtag_uid');
+    var Affilate_Cookies = encodeURIComponent('affilate=admitad&src=admitad');
+    var affsrc = encodeURIComponent('utm_source=admitad&tagtag_uid=' + tag_id);
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&affsrc=' + affsrc + '&Affilate_Search=' + Affilate_Search + '&tagtag_aid=' + encodeURIComponent(tag_id));
+  }
+  // add studentbeans code caopc 2020-07-03
+  if (getParameter(window.location.href, 'aff_sub')) {
+    var val = getParameter(window.location.href, 'aff_sub');
+    var Affilate_Cookies = encodeURIComponent('affilate=studentbeans&type=proxy&transaction_id=' + val);
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+  }
+  if (getParameter(window.location.href, 'source') == 'webgains') {
+    var wgu = getParameter(window.location.href, 'wgu').match(/\d+/);
+    var event_id = wgu && wgu[0] == '280465' ? 1060325 : 1060775;
+    var Affilate_Cookies = encodeURIComponent('affilate=webgains&wgu=' + wgu + '&eventId=' + event_id);
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+  }
+  if (getParameter(window.location.href, 'awc')) {
+    var awc = getParameter(window.location.href, 'awc');
+    var Affilate_Cookies = encodeURIComponent('affilate=awin&awc=' + awc);
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+  }
+  if (getParameter(window.location.href, 'refid')) {
+    var refid = getParameter(window.location.href, 'refid');
+    var Affilate_Cookies = encodeURIComponent('affilate=Flexoffer&refid=' + refid);
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+  }
+  if (getParameter(window.location.href, 'avad')) {
+    var avad = getParameter(window.location.href, 'avad');
+    var Affilate_Cookies = encodeURIComponent('affilate=Avantlink&avad=' + avad);
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+  }
+  if (getParameter(window.location.href, 'utm_source') == 'lomadee') {
+    var lmdsid = getParameter(window.location.href, 'lmdsid');
+    var Affilate_Cookies = encodeURIComponent('affilate=lomadee&lmdsid=' + lmdsid);
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+  }
+  if (getParameter(window.location.href, 'wgp_msg_id')) {
+    var wgp_msg_id = getParameter(window.location.href, 'wgp_msg_id');
+    var Affilate_Cookies = encodeURIComponent('wgp_msg_id=' + wgp_msg_id);
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+  }
+  if (getParameter(window.location.href, 'utm') == 'webridge') {
+    var domain = getDomain();
+    var fil = getParameter(window.location.href, 'fil');
+    var Affilate_Cookies = encodeURIComponent('affilate=webridge');
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+    SetCookie_customer('GQAau8dfXaUH', fil, domain, 365);
+  }
+  // indoleads
+  if (getParameter(window.location.href, 'utm_term') === 'indoleads') {
+    var utm_content = getParameter(window.location.href, 'utm_content');
+    var Affilate_Cookies = encodeURIComponent('affilate=indoleads&utm_content=' + utm_content);
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+  }
+  // impact
+  if (getParameter(window.location.href, 'utm_term') === 'impact') {
+    var irclickid = getParameter(window.location.href, 'irclickid');
+    var Affilate_Cookies = encodeURIComponent('affilate=impact&irclickid=' + irclickid);
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+  }
+  // soicos
+  if (getParameter(window.location.href, 'utm_source') === 'soicos') {
+    var Affilate_Cookies = encodeURIComponent('affilate=soicos');
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+  }
+  // Tradetracker
+  if (getParameter(window.location.href, 'utm_source') === 'tradetracker') {
+    var utm_medium = getParameter(window.location.href, 'utm_medium');
+    var Affilate_Cookies = encodeURIComponent('affilate=tradetracker&utm_medium=' + utm_medium);
+    var Affilate_Search = encodeURIComponent(location.search);
+    serviceCookie('Affilate_Cookies=' + Affilate_Cookies + '&Affilate_Search=' + Affilate_Search);
+  }
+
+})();
+
+(function () {
+  var hostList = ['wondershare.com', 'wondershare.com.br', 'wondershare.de', 'wondershare.es', 'wondershare.fr', 'wondershare.it', 'wondershare.kr', 'wondershare.jp', 'edrawsoft.com', 'hipdf.com', 'edrawsoft.com', 'hipdf.com', 'mindmaster.io', 'media.io'];
+  var allLinks = document.querySelectorAll('a');
+  allLinks.forEach(function (item) {
+    item.addEventListener('click', function () {
+      var href = this.href,
+        inHostList = false,
+        _this = this;
+      var Affilate_Cookies = getCookie('Affilate_Cookies');
+      // Affilate_Search已经包含了custom
+      var urlSearch = getCookie('Affilate_Search');
+      if (href) {
+        // 购买按钮配置的链接长度可能超过255，会导致host正则匹配失败，在做host的match之前先进行截取，不改变原href值。
+        var hostHref = href.slice(0,250);
+        // var host = href.match(/^(?=^.{3,255}$)(http(s)?:\/\/)?(www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:\d+)*(\/\w+\.\w+)*/g);
+        var host = hostHref.match(/^(?=^.{3,255}$)(http(s)?:\/\/)?(www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:\d+)*(\/\w+\.\w+)*/g);
+        host = host ? host[0] : '';
+        if (Affilate_Cookies && urlSearch && host.indexOf(location.host) === -1) {
+          for (var index = 0; index < hostList.length; index++) {
+            if (host.indexOf(hostList[index]) > -1) {
+              inHostList = true;
+              break;
+            }
+          }
+          if (inHostList) {
+            var params = {},
+              strParams = '';
+            if (href.indexOf('?') > -1) {
+              href.replace(/([^?&=]+)=([^?&=#]*)/g, function ($0, $1, $2) {
+                params[$1] = params[$1] ? params[$1] : $2;
+              });
+              urlSearch.replace(/([^?&=]+)=([^?&=#]*)/g, function ($0, $1, $2) {
+                params[$1] = params[$1] ? params[$1] : $2;
+              });
+              for (var key in params) {
+                strParams += key + '=' + params[key] + '&';
+              }
+              strParams = '?' + strParams.slice(0, strParams.length - 1);
+              // 链接中不带extra_param则拼接extra_param
+              if (strParams.indexOf('extra_param') === -1) {
+                var extraParam = getCookie('extra_param');
+                if (extraParam) {
+                  strParams += '&extra_param=' + extraParam;
+                }
+              }
+              _this.href = href.replace(/\?([^#])*/g, strParams);
+            } else {
+              // 链接中不带extra_param则拼接extra_param
+              if (urlSearch.indexOf('extra_param') === -1) {
+                var extraParam = getCookie('extra_param');
+                if (extraParam) {
+                  urlSearch += '&extra_param=' + extraParam;
+                }
+              }
+              _this.href = href + urlSearch;
+            }
+          }
+        }
+      }
+    });
+  });
+  serviceCookie();
+})();
