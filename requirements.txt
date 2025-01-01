@@ -1,4 +1,4 @@
-setuptools>=65.5.1
+setuptools==58.0.4
 pip>=24.3.1
 astropy==5.0.4 --only-binary=:all:
 wheel
