@@ -2,22 +2,23 @@ setuptools==58.0.4
 wheel
 cython
 numpy
-build
 aioftp==0.21.0
 aiohttp==3.8.1
 aiosignal==1.2.0
 alembic==1.8.1
+build
 altair==4.1.0
 analytics-python==1.2.9
 anyio==3.5.0
 appdirs==1.4.4
 argon2-cffi==20.1.0
 astor==0.8.1
-astropy>=5.2 --only-binary=:all:
+astropy>=5.2
 pip>=24.3.1
 streamlit
 streamlit-option-menu==0.3.5
 markdown==3.4.4
+numpy
 pandas==1.5.3
 statsmodels
 scikit-learn
