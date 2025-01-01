@@ -1,0 +1,3 @@
+zlib1g-dev
+swig
+build-essential
