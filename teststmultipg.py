@@ -9,8 +9,19 @@ from heuristixtraining import heuristixtraining
 from heuristixrunamodel import run_a_model
 from heuristixpredictions import predict
 from heuristixalisen import alisen
+import os
+import subprocess
 
 st.set_page_config(layout="wide")
+
+# Run dtale-streamlit as a subprocess
+command = [
+    "dtale-streamlit",
+    "run",
+    __file__,  # Use the current file
+    "--theme.primaryColor=#FFCC66",
+    "--client.showErrorDetails=false"
+]
 
 st.markdown('<style>' + open('./style.css').read() + '</style>', unsafe_allow_html=True)
 
@@ -191,7 +202,7 @@ def custom_navbar():
 
     if selected != st.session_state["selected_page"]:
         st.session_state["selected_page"] = selected
-        st.experimental_rerun()
+        st.rerun()
 
 # # Custom Bars Component Logic
 # def custom_bars():
@@ -211,7 +222,7 @@ def custom_navbar():
 #             st.session_state["selected_page"] = "Training"
 #         elif clicked_bar == "Bar4":
 #             st.session_state["selected_page"] = "Run a model"
-#         st.experimental_rerun()  # Force reload only once
+#         st.rerun()  # Force reload only once
 
 
 # Page Content Functions
