@@ -13,7 +13,7 @@ anyio==3.5.0
 appdirs==1.4.4
 argon2-cffi==20.1.0
 astor==0.8.1
-astropy==5.0.4
+astropy>=5.2
 pip>=24.3.1
 streamlit
 streamlit-option-menu==0.3.5
