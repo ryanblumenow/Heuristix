@@ -38,4 +38,3 @@ streamlit_quill==0.0.3
 python-pptx==0.6.21
 streamlit-on-Hover-tabs==1.0.1
 streamlit_pandas_profiling
-torch
