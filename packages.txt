@@ -1,5 +1,6 @@
-zlib1g-dev
-swig
 build-essential
-python3-dev
+swig
+zlib1g-dev
 libjpeg-dev
+libpng-dev
+libopenblas-dev
