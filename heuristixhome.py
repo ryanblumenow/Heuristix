@@ -1,6 +1,6 @@
 import streamlit as st
 from click_bars import st_click_bars
-from streamlit_carousel import carousel
+# from streamlit_carousel import carousel
 import streamlit.components.v1 as components
 
 def heuristix_home():

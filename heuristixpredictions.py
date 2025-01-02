@@ -4,7 +4,7 @@ import base64
 from email import header
 from html.entities import html5
 from importlib.resources import read_binary
-import hydralit as hy
+# import hydralit as hy
 from markdown import markdown
 from numpy.core.fromnumeric import var
 import streamlit
@@ -62,7 +62,7 @@ import dtale.global_state as global_state
 import dtale.app as dtale_app
 from matplotlib.pyplot import axis, hist
 from scipy import stats as stats
-from bioinfokit.analys import stat
+# from bioinfokit.analys import stat
 from statsmodels.stats.anova import AnovaRM
 import statsmodels.api as sm
 from statsmodels.graphics.factorplots import interaction_plot
@@ -75,7 +75,7 @@ import streamlit as st
 from click_image_copy_from_demo import st_click_image
 from dtale.views import startup
 from streamlit_quill import st_quill
-import pandas_profiling
+# import pandas_profiling
 from streamlit_pandas_profiling import st_profile_report
 import dataingestion
 from sklearn.ensemble import RandomForestClassifier
