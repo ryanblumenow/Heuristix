@@ -23,7 +23,7 @@ statsmodels
 scikit-learn
 matplotlib
 seaborn==0.12.2
-scipy==1.11.3
+scipy
 Pillow>=9.4.0
 dtale==3.10.0
 transformers==4.34.0
