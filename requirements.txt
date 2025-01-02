@@ -15,7 +15,7 @@ astor==0.8.1
 astropy>=5.2
 pip>=24.3.1
 streamlit==1.25.0
-streamlit-option-menu==0.3.5
+streamlit-option-menu
 markdown==3.4.4
 numpy
 pandas==1.5.3
