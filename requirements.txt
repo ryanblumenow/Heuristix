@@ -14,7 +14,7 @@ argon2-cffi==20.1.0
 astor==0.8.1
 astropy>=5.2
 pip>=24.3.1
-streamlit==1.25.0
+streamlit
 streamlit-option-menu
 markdown==3.4.4
 numpy
