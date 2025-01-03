@@ -12,6 +12,10 @@ import pandasai.helpers.cache
 import shelve
 # pandasai.helpers.cache.Cache.__init__ = lambda self: setattr(self, 'cache', shelve.open('/tmp/pandasai_cache'))
 # pandasai._cache = Cache(filename="pandasai_cache.db")
+from pandasai.helpers.cache import Cache
+
+# Force the cache to use a unique file in the `/tmp` directory
+Cache.__init__ = lambda self: setattr(self, 'cache', shelve.open('/tmp/pandasai_cache_' + str(os.getpid())))
 
 def alisen():
 
