@@ -35,7 +35,7 @@ import seaborn as sns
 from io import BytesIO
 from statsmodels.formula.api import ols
 # from streamlit.state.session_state import SessionState
-import tkinter
+# import tkinter
 import matplotlib
 # matplotlib.use('TkAgg')
 # matplotlib.use('Agg')
@@ -83,7 +83,7 @@ from sklearn.feature_selection import SelectFromModel
 from sklearn.preprocessing import LabelEncoder
 from streamlit_extras.add_vertical_space import add_vertical_space
 
-def heuristixanalytix():
+def analytix():
 
     title = '<p style="font-family:sans-serif; color:gold; font-size: 39px; text-align: center;"><b>Automated Analytix flow</b></p>'
     st.markdown(title, unsafe_allow_html=True)

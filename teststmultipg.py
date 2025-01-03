@@ -4,8 +4,8 @@ from streamlit_option_menu import option_menu
 from streamlit_extras.add_vertical_space import add_vertical_space
 from st_on_hover_tabs import on_hover_tabs
 from heuristixhome import heuristix_home
-from heuristixanalytix import heuristixanalytix
-from heuristixtraining import heuristixtraining
+from heuristixanalytix import analytix
+from heuristixtraining import training
 from heuristixrunamodel import run_a_model
 from heuristixpredictions import predict
 from heuristixalisen import alisen
@@ -255,9 +255,9 @@ def main():
     if st.session_state["selected_page"] == "Heuristix home":
         heuristix_home()
     elif st.session_state["selected_page"] == "Heuristix Analytix":
-        heuristixanalytix()
+        analytix()
     elif st.session_state["selected_page"] == "Training":
-        heuristixtraining()
+        training()
     elif st.session_state["selected_page"] == "Make a prediction":
         predict()
     elif st.session_state["selected_page"] == "Ask Alisen":

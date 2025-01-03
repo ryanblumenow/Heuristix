@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 import os, base64
 
-def heuristixtraining():
+def training():
 
     title = '<p style="font-family:sans-serif; color:gold; font-size: 39px; text-align: center;"><b>How to use the Heuristix Analytix Playground</b></p>'
     st.markdown(title, unsafe_allow_html=True)
