@@ -1,11 +1,11 @@
 # from pandasai.llm.local_llm import LocalLLM
 import streamlit as st
 import pandas as pd
-# from pandasai import Agent
 import pandasai
 import matplotlib.pyplot as plt
 import dataingestion
 from streamlit_extras.add_vertical_space import add_vertical_space
+from pandasai import Agent
 from pandasai import SmartDataframe
 import os
 import pandasai.helpers.cache
@@ -33,7 +33,7 @@ def alisen():
 
     df_raw = dataingestion.readdata()
 
-    df = pandasai.SmartDataframe(df_raw)
+    df = SmartDataframe(df_raw)
 
     with st.expander("Sample of data", expanded=False):
         samplecol1, samplecol2, samplecol3 = st.columns([1,3,1])
@@ -50,7 +50,7 @@ def alisen():
     # Initialize the agent
     # agent = Agent(df, config={"llm": model})
 
-    agent = pandasai.Agent(df)
+    agent = Agent(df)
 
     alisencolm1, alisencolm2, alisencolm3 = st.columns([1,3,1])
 
