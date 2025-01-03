@@ -5,4 +5,4 @@ version = "3.10.9"
 showErrorDetails = "none"
 
 [global]
-disableWidgetStateDuplicationWarning  = False
+disableWidgetStateDuplicationWarning  = false
