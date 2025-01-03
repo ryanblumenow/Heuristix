@@ -45,7 +45,7 @@ def alisen():
     with st.expander("Sample of data", expanded=False):
         samplecol1, samplecol2, samplecol3 = st.columns([1,3,1])
         with samplecol2:
-            st.write(df.sample(8))
+            st.write(df_raw.sample(8))
 
     with st.expander("What can Alisen do?", expanded=False):
         alisencol1, alisencol2, alisencol3 = st.columns([1,3,1])
