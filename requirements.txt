@@ -2,10 +2,10 @@ analytics-python
 streamlit
 streamlit-option-menu
 markdown
-numpy
+scikit-learn==1.3.0
+numpy==1.24.0
 pandas
 statsmodels
-scikit-learn
 matplotlib
 seaborn
 scipy
