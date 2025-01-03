@@ -1,4 +1,4 @@
-from pandasai.llm.local_llm import LocalLLM
+# from pandasai.llm.local_llm import LocalLLM
 import streamlit as st
 import pandas as pd
 import pandasai
@@ -30,17 +30,17 @@ def alisen():
 
     st.info("This is decision support: artifically intelligent advanced domain expertise and organizational knowledge. Alisen and her agents are trained on and sourced from your data, so they are experts in your specific environment.")
 
-    # Initialize the local model
-    model = LocalLLM(
-        api_base="http://localhost:11434/v1",
-        model="llama3"
-    )
+    # # Initialize the local model
+    # model = LocalLLM(
+    #     api_base="http://localhost:11434/v1",
+    #     model="llama3"
+    # )
 
     os.environ["PANDASAI_API_KEY"] = "$2a$10$H2DDxvj8BynWr.Tsk1Glb.ci4R5NUiVfdRrMcrldkwpHzp5HEZrz2"
 
-    df = dataingestion.readdata()
+    df_raw = dataingestion.readdata()
 
-    # df = SmartDataframe(df_raw)
+    df = SmartDataframe(df_raw)
 
     with st.expander("Sample of data", expanded=False):
         samplecol1, samplecol2, samplecol3 = st.columns([1,3,1])
