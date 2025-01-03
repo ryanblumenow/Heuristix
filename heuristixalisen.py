@@ -1,4 +1,4 @@
-# from pandasai.llm.local_llm import LocalLLM
+from pandasai.llm.local_llm import LocalLLM
 import streamlit as st
 import pandas as pd
 import pandasai
