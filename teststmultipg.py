@@ -11,6 +11,9 @@ from heuristixpredictions import predict
 from heuristixalisen import alisen
 import os
 import subprocess
+import warnings
+
+warnings.filterwarnings("ignore")
 
 # st.set_page_config(layout="wide")
 
