@@ -5,7 +5,7 @@ import streamlit as st
 import pandas as pd
 
 # Cached function for expensive operations (e.g., loading default data)
-@st.cache_data(experimental_allow_widgets=True)
+@st.cache_data()
 def load_data(file_path):
     """Expensive operation to load data from a CSV file."""
     return pd.read_csv(file_path, low_memory=False)
