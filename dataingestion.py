@@ -32,6 +32,7 @@ def readdata():
         df = load_data("testdata.csv")
     else:
         st.warning("Please upload a dataset or use default data")
+        df = load_data("testdata.csv")
 
     return df
 
