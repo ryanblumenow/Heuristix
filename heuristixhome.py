@@ -3,6 +3,8 @@ from click_bars import st_click_bars
 # from streamlit_carousel import carousel
 import streamlit.components.v1 as components
 
+st.set_page_config(layout="wide")
+
 def heuristix_home():
     st.title("Heuristix Home")
     st.write("Welcome to the Heuristix home page, and our three pillars.")

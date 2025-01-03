@@ -13,6 +13,8 @@ import shelve
 pandasai.helpers.cache.Cache.__init__ = lambda self: setattr(self, 'cache', shelve.open('/tmp/pandasai_cache'))
 # pandasai._cache = Cache(filename="pandasai_cache.db")
 
+st.set_page_config(layout="wide")
+
 def alisen():
 
     st.markdown(f"""

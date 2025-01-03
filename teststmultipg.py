@@ -12,7 +12,7 @@ from heuristixalisen import alisen
 import os
 import subprocess
 
-st.set_page_config(layout="wide")
+# st.set_page_config(layout="wide")
 
 # Run dtale-streamlit as a subprocess
 command = [

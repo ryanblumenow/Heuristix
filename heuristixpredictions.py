@@ -83,6 +83,8 @@ from sklearn.feature_selection import SelectFromModel
 from sklearn.preprocessing import LabelEncoder
 from streamlit_extras.add_vertical_space import add_vertical_space
 
+st.set_page_config(layout="wide")
+
 def predict():
 
     st.title("Make a prediction")
