@@ -20,4 +20,3 @@ streamlit_quill
 python-pptx
 streamlit-on-Hover-tabs
 streamlit_pandas_profiling
-distutils
