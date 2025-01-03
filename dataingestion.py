@@ -1,47 +1,40 @@
 import pandas as pd
 import streamlit as st
 
-@st.cache_data(experimental_allow_widgets=True) 
+import streamlit as st
+import pandas as pd
+
+# Cached function for expensive operations (e.g., loading default data)
+@st.cache_data(experimental_allow_widgets=True)
+def load_data(file_path):
+    """Expensive operation to load data from a CSV file."""
+    return pd.read_csv(file_path, low_memory=False)
+
+# Main function to read data
 def readdata():
+    """Handles data ingestion with widget interactions."""
+    # Initialize an empty dataframe
+    df = None
 
-    # # Read data
-    # df = pd.read_csv('allrecordsohe.csv', low_memory=False)
-    # df2 = pd.read_csv('allrecords.csv', low_memory=False)
-    # branddf = pd.read_csv('Brandname encoding.csv', low_memory=False)
-
-    # # Check for empty data
-    # df.isnull().sum()
-    # df2.isnull().sum()
-
-    # # Remove NaN
-    # nr_samples_before = df.shape[0]
-    # df = df.fillna(0)
-    # print('Removed %s samples' % (nr_samples_before - df.shape[0]))
-    # nr_samples_before = df2.shape[0]
-    # df2 = df2.fillna(0)
-    # print('Removed %s samples' % (nr_samples_before - df2.shape[0]))
-
-    # # Drop irrelevant variables
-    # df.drop(['TD_ID', 'KRUX_ID', 'TAP_IT_ID', 'GOOGLE_CLIENT_ID'], axis=1, inplace=True)
-    # df2.drop(['TD_ID', 'KRUX_ID', 'TAP_IT_ID', 'GOOGLE_CLIENT_ID'], axis=1, inplace=True)
-
-    # # df = df.reset_index()
-    # # df2 = df2.reset_index()
-
-    # return df, df2, branddf
-
-    df = pd.read_csv('testdata.csv', low_memory=False)
-
+    # Widget for file upload
     uploaded_file = st.file_uploader("Upload your dataset (CSV file)", type=["csv"])
 
+    # Button to load default data
     defaultdata = st.button("Use default data")
 
     if uploaded_file is not None:
+        # Load uploaded data
         df = pd.read_csv(uploaded_file)
         st.write("Dataset preview:")
         st.write(df.head())
-        
+    elif defaultdata:
+        # Use cached function to load default dataset
+        df = load_data("testdata.csv")
+    else:
+        st.warning("Please upload a dataset or use default data")
+
     return df
+
 
     ### End
 
