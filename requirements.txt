@@ -1,3 +1,4 @@
+setuptools
 analytics-python
 streamlit
 streamlit-option-menu
