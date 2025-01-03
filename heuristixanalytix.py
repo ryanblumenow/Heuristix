@@ -83,8 +83,6 @@ from sklearn.feature_selection import SelectFromModel
 from sklearn.preprocessing import LabelEncoder
 from streamlit_extras.add_vertical_space import add_vertical_space
 
-st.set_page_config(layout="wide")
-
 def analytix():
 
     title = '<p style="font-family:sans-serif; color:gold; font-size: 39px; text-align: center;"><b>Automated Analytix flow</b></p>'
