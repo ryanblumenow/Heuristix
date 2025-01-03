@@ -33,7 +33,7 @@ def alisen():
 
     df_raw = dataingestion.readdata()
 
-    df = SmartDataframe(df_raw)
+    df = pandasai.SmartDataframe(df_raw)
 
     with st.expander("Sample of data", expanded=False):
         samplecol1, samplecol2, samplecol3 = st.columns([1,3,1])
