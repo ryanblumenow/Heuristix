@@ -2,7 +2,5 @@
 version = "3.10.9"
 
 [client]
-showErrorDetails = "none"
+showErrorDetails = false
 
-[global]
-disableWidgetStateDuplicationWarning  = false
