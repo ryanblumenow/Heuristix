@@ -11,7 +11,7 @@ import os
 import pandasai.helpers.cache
 import shelve
 pandasai.helpers.cache.Cache.__init__ = lambda self: setattr(self, 'cache', shelve.open('/tmp/pandasai_cache'))
-pandasai._cache = Cache(filename="pandasai_cache.db")
+# pandasai._cache = Cache(filename="pandasai_cache.db")
 
 def alisen():
 
