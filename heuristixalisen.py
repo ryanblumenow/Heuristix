@@ -1,7 +1,7 @@
 # from pandasai.llm.local_llm import LocalLLM
 import streamlit as st
 import pandas as pd
-from pandasai import Agent
+# from pandasai import Agent
 import pandasai
 import matplotlib.pyplot as plt
 import dataingestion
